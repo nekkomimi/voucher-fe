@@ -5,6 +5,8 @@ import {HomeFilled, InfoCircleFilled, LaptopOutlined, NotificationOutlined, User
 import type {MenuProps} from 'antd';
 import {Breadcrumb, Layout, Menu, theme} from 'antd';
 import {useRouter} from "next/navigation";
+import Home from '../page';
+import Page from './home/page';
 
 const {Header, Content, Sider} = Layout;
 
@@ -59,7 +61,19 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({children}) => 
 
   return (
     <Layout>
-      <Header className="header flex">
+      <Page></Page>
+      {/* <Menu
+            mode="inline"
+            defaultSelectedKeys={['1']}
+            defaultOpenKeys={['sub1']}
+            style={{height: '100%', borderRight: 0}}
+            items={menu.concat(items2)}
+            onClick={({key}) => {
+              router.push(key);
+              // console.log(`key ${key} route not found`);
+            }}
+          /> */}
+      {/* <Header className="header flex">
         <div className={"text-white"}>y</div>
         <Menu theme="dark" mode="horizontal" defaultSelectedKeys={[]} items={items1} className={"flex-1"}/>
       </Header>
@@ -89,7 +103,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({children}) => 
             {children}
           </Content>
         </Layout>
-      </Layout>
+      </Layout> */}
     </Layout>
   );
 };
