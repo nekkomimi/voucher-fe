@@ -1,12 +1,35 @@
 "use client";
 
 import React, { useState } from "react";
-import { Button, Card, Modal, Form, Radio, Input, Col } from "antd";
+import { Button, Card, Modal, Form, Radio, Input, Col, Divider, Upload, message } from "antd";
 import { store } from "#/store";
-import { MinusOutlined, SearchOutlined } from "@ant-design/icons";
+import type { UploadProps } from 'antd';
+
+import { MinusOutlined, SearchOutlined, InboxOutlined, UploadOutlined } from "@ant-design/icons";
 import { sampleRepository } from "#/repository/sample";
 import { useForm } from "antd/es/form/Form";
 
+const { Dragger } = Upload;
+
+const props: UploadProps = {
+    name: 'file',
+    multiple: true,
+    action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+    onChange(info) {
+        const { status } = info.file;
+        if (status !== 'uploading') {
+            console.log(info.file, info.fileList);
+        }
+        if (status === 'done') {
+            message.success(`${info.file.name} file uploaded successfully.`);
+        } else if (status === 'error') {
+            message.error(`${info.file.name} file upload failed.`);
+        }
+    },
+    onDrop(e) {
+        console.log('Dropped files', e.dataTransfer.files);
+    },
+};
 const Page = () => {
     const [form] = Form.useForm();
     const [isModalOpen, setIsModalOpen] = useState(false)
@@ -22,27 +45,107 @@ const Page = () => {
     const handleCancelModal = () => {
         setIsModalOpen(false)
     };
+    const Pricing = () => {
+        return (
+            <div className="bg-gray-100 py-16">
+                <div className="container mx-auto">
+                    <h1 className="text-3xl font-semibold text-center text-gray-800 mb-8">
+                        Choose a Plan
+                    </h1>
+                    <div className="flex flex-col md:flex-row justify-center items-center">
+                        {/* Pricing Card 1 */}
+                        <div className="bg-white shadow-lg p-6 rounded-lg m-4">
+                            <h2 className="text-2xl font-semibold text-gray-800 mb-4">Basic</h2>
+                            <p className="text-gray-600 mb-4">Perfect for individuals</p>
+                            <p className="text-3xl font-semibold text-gray-800 mb-4">$10/month</p>
+                            <button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-full">
+                                Choose Plan
+                            </button>
+                        </div>
+
+                        {/* Pricing Card 2 */}
+                        <div className="bg-white shadow-lg p-6 rounded-lg m-4">
+                            <h2 className="text-2xl font-semibold text-gray-800 mb-4">Pro</h2>
+                            <p className="text-gray-600 mb-4">For small businesses</p>
+                            <p className="text-3xl font-semibold text-gray-800 mb-4">$25/month</p>
+                            <button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-full">
+                                Choose Plan
+                            </button>
+                        </div>
+
+                        {/* Pricing Card 3 */}
+                        <div className="bg-white shadow-lg p-6 rounded-lg m-4">
+                            <h2 className="text-2xl font-semibold text-gray-800 mb-4">Enterprise</h2>
+                            <p className="text-gray-600 mb-4">For large organizations</p>
+                            <p className="text-3xl font-semibold text-gray-800 mb-4">$50/month</p>
+                            <button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-full">
+                                Choose Plan
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    };
+
 
     return (
         <div style={{ position: 'relative' }}>
             <img
-                src="https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                src="https://img.freepik.com/free-vector/gradient-abstract-geometric-background_23-2149120339.jpg?w=1380&t=st=1693850816~exp=1693851416~hmac=95c921b632e7762432db98a73db5b93b00cdeaa4395b57cdb2e3264fff440a20"
                 style={{ width: '100%' }}
                 alt="Banner"
             />
             <div
                 style={{
                     position: 'absolute',
-                    top: '70%',
+                    top: '60%',
                     left: '50%',
                     transform: 'translate(-50%, -50%)',
                 }}
             >
-                <Button style={{
-                    scale: 2
-                }} onClick={() => {
-                    handleModalOpen()
-                }}>Setup your plan</Button>
+                <div className="flex flex-col md:flex-row justify-center items-center gap-x-10">
+                    <Button style={{
+                        height: '300px',
+                        width: '450px',
+                        backgroundColor: 'blue',
+                        borderWidth: 3,
+                        borderColor: 'black',
+                        borderRadius: 19,
+                    }} onClick={() => {
+                        handleModalOpen()
+                    }}>
+                        <div className="bg-transparent p-6 rounded-lg m-4">
+                            <h2 className="text-5xl font-semibold text-black-800 mb-4">Basic</h2>
+                            <p className="text-black-600 mb-4 text-3xl">1 Month Subscribe</p>
+                            <Divider style={{
+                                height: '3px',
+                                backgroundColor: 'black'
+                            }}></Divider>
+                            <p className="text-4xl font-semibold text-black-800 mb-4">100K</p>
+                        </div>
+                    </Button>
+                    <Button style={{
+                        height: '300px',
+                        width: '450px',
+                        backgroundColor: 'orange',
+                        borderWidth: 3,
+                        borderColor: 'black',
+                        borderRadius: 19,
+                    }} onClick={() => {
+                        handleModalOpen()
+                    }}>
+                        <div className="bg-transparent p-6 rounded-lg m-4">
+                            <h2 className="text-5xl font-semibold text-black-800 mb-4">Pro</h2>
+                            <p className="text-black-600 mb-4 text-3xl">3 Month Subscribe</p>
+                            <Divider style={{
+                                height: '3px',
+                                backgroundColor: 'black'
+                            }}></Divider>
+                            <p className="text-4xl font-semibold text-black-800 mb-4">180K</p>
+                        </div>
+                    </Button>
+                </div>
             </div>
             <Modal
                 title={
@@ -77,62 +180,31 @@ const Page = () => {
                         >
                             <Input placeholder="Email" />
                         </Form.Item>
-                        <div className="flex flex-row gap-2">
-                            <Col span={12}>
-                                <Form.Item
-                                    label="NIK/NPWP"
-                                    name={"npwp"}
-                                    rules={[
-                                        {
-                                            required: true,
-                                            message: "Please Input NIK/NPWP!",
-                                        },
-                                        {
-                                            pattern: new RegExp("^[0-9]*$"),
-                                            message: "Can't contain letter and symbol",
-                                        },
-                                    ]}
-                                >
-                                    <Input type="text" placeholder="NPWP Number" maxLength={16} />
-                                </Form.Item>
-                            </Col>
-                            <Col span={12}>
-                                <Form.Item
-                                    label="Phone"
-                                    name={"phone_number"}
-                                    rules={[
-                                        { required: true, message: "Please Input Phone Number!" },
-                                        {
-                                            pattern: /^-?[0-9]*$/,
-                                            message: "Please Input Phone Number Correctly",
-                                        },
-                                    ]}
-                                >
-                                    <Input type="text" maxLength={13} placeholder="Phone Number" />
-                                </Form.Item>
-                            </Col>
-                        </div>
                         <Form.Item
-                            label="Address"
-                            name={"address"}
-                            rules={[{ whitespace: true, required: true, message: "Please Input Address!" }]}
-                        >
-                            <Input.TextArea placeholder="Customer Address" />
-                        </Form.Item>
-                        <Form.Item
-                            name={"pkp"}
-                            label="Company Type"
+                            label="Phone"
+                            name={"phone_number"}
                             rules={[
+                                { required: true, message: "Please Input Phone Number!" },
                                 {
-                                    required: true,
-                                    message: "Please Select Company Type!",
+                                    pattern: /^-?[0-9]*$/,
+                                    message: "Please Input Phone Number Correctly",
                                 },
                             ]}
                         >
-                            <Radio.Group>
-                                <Radio value={true}>PKP</Radio>
-                                <Radio value={false}>NON PKP</Radio>
-                            </Radio.Group>
+                            <Input type="text" maxLength={13} placeholder="Phone Number" />
+                        </Form.Item>
+                        <Form.Item
+                            label="Payment Method"
+                            name={"payment"}
+                        >
+                            <div>
+                                <p>Bank Mandiri | A.N Nugroho Kuncoro Adi | 1590902905920</p>
+                            </div>
+                        </Form.Item>
+                        <Form.Item label={"Invoice"}>
+                            <Upload {...props}>
+                                <Button icon={<UploadOutlined />}>Click to Upload</Button>
+                            </Upload>
                         </Form.Item>
                         <Col span={24}>
                             <div className="flex justify-end gap-4">
