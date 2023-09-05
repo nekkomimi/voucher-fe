@@ -15,25 +15,25 @@ const items1: MenuProps['items'] = ['1', '2', '3'].map((key) => ({
   label: `nav ${key}`,
 }));
 
-const items2: MenuProps['items'] = [UserOutlined, LaptopOutlined, NotificationOutlined].map(
-  (icon, index) => {
-    const key = String(index + 1);
+// const items2: MenuProps['items'] = [UserOutlined, LaptopOutlined, NotificationOutlined].map(
+//   (icon, index) => {
+//     const key = String(index + 1);
 
-    return {
-      key: `sub${key}`,
-      icon: React.createElement(icon),
-      label: `subnav ${key}`,
+//     return {
+//       key: `sub${key}`,
+//       icon: React.createElement(icon),
+//       label: `subnav ${key}`,
 
-      children: new Array(4).fill(null).map((_, j) => {
-        const subKey = index * 4 + j + 1;
-        return {
-          key: subKey,
-          label: `option${subKey}`,
-        };
-      }),
-    };
-  },
-);
+//       children: new Array(4).fill(null).map((_, j) => {
+//         const subKey = index * 4 + j + 1;
+//         return {
+//           key: subKey,
+//           label: `option${subKey}`,
+//         };
+//       }),
+//     };
+//   },
+// );
 
 interface AuthenticatedLayoutProps {
   children: React.ReactNode
@@ -50,30 +50,13 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({children}) => 
     {
       key: `/home`,
       icon: <HomeFilled/>,
-      label: `Home`,
+      label: `Transaksi`,
     },
-    {
-      key: `/about`,
-      icon: <InfoCircleFilled/>,
-      label: `About`,
-    }
   ]
 
   return (
     <Layout>
-      <Page></Page>
-      {/* <Menu
-            mode="inline"
-            defaultSelectedKeys={['1']}
-            defaultOpenKeys={['sub1']}
-            style={{height: '100%', borderRight: 0}}
-            items={menu.concat(items2)}
-            onClick={({key}) => {
-              router.push(key);
-              // console.log(`key ${key} route not found`);
-            }}
-          /> */}
-      {/* <Header className="header flex">
+      <Header className="header flex">
         <div className={"text-white"}>y</div>
         <Menu theme="dark" mode="horizontal" defaultSelectedKeys={[]} items={items1} className={"flex-1"}/>
       </Header>
@@ -83,8 +66,8 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({children}) => 
             mode="inline"
             defaultSelectedKeys={['1']}
             defaultOpenKeys={['sub1']}
-            style={{height: '100%', borderRight: 0}}
-            items={menu.concat(items2)}
+            style={{height: '100%', borderRight: 0, paddingTop: 10}}
+            items={menu}
             onClick={({key}) => {
               router.push(key);
               // console.log(`key ${key} route not found`);
@@ -103,7 +86,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({children}) => 
             {children}
           </Content>
         </Layout>
-      </Layout> */}
+      </Layout>
     </Layout>
   );
 };

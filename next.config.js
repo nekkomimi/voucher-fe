@@ -7,6 +7,9 @@ const nextConfig = {
     // Enables the styled-components SWC transform
     styledComponents: true
   },
+  images: {
+    domains: ['img.freepik.com'], 
+  },
 }
 
 module.exports = nextConfig
