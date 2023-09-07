@@ -2,38 +2,19 @@
 
 import React from 'react';
 import {HomeFilled, InfoCircleFilled, LaptopOutlined, NotificationOutlined, UserOutlined} from '@ant-design/icons';
-import type {MenuProps} from 'antd';
+import {Button, MenuProps} from 'antd';
 import {Breadcrumb, Layout, Menu, theme} from 'antd';
 import {useRouter} from "next/navigation";
 import Home from '../page';
-import Page from './home/page';
+import Page from './admin/page';
 
 const {Header, Content, Sider} = Layout;
 
-const items1: MenuProps['items'] = ['1', '2', '3'].map((key) => ({
+const items1: MenuProps['items'] = ['1',].map((key) => ({
   key,
   label: `nav ${key}`,
 }));
 
-// const items2: MenuProps['items'] = [UserOutlined, LaptopOutlined, NotificationOutlined].map(
-//   (icon, index) => {
-//     const key = String(index + 1);
-
-//     return {
-//       key: `sub${key}`,
-//       icon: React.createElement(icon),
-//       label: `subnav ${key}`,
-
-//       children: new Array(4).fill(null).map((_, j) => {
-//         const subKey = index * 4 + j + 1;
-//         return {
-//           key: subKey,
-//           label: `option${subKey}`,
-//         };
-//       }),
-//     };
-//   },
-// );
 
 interface AuthenticatedLayoutProps {
   children: React.ReactNode
@@ -54,11 +35,20 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({children}) => 
     },
   ]
 
+  // Function to handle logout
+  const handleLogout = () => {
+    // Remove the access token from local storage
+    localStorage.removeItem("accessToken");
+    // Redirect the user to the login page using the router
+    router.push("/login");
+  };
+
   return (
     <Layout>
-      <Header className="header flex">
-        <div className={"text-white"}>y</div>
+      <Header className="header flex justify-between items-center">
+        <div className={"text-white"}>logo</div>
         <Menu theme="dark" mode="horizontal" defaultSelectedKeys={[]} items={items1} className={"flex-1"}/>
+        <Button onClick={handleLogout}>Logout</Button>
       </Header>
       <Layout>
         <Sider width={200} style={{background: colorBgContainer}}>

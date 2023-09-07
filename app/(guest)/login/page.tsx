@@ -2,29 +2,32 @@
 
 import React, {useState} from "react";
 // import {observer} from 'mobx-react-lite';
-import {Button, Card, Checkbox, Col, Form, Input, Row, Typography} from 'antd';
+import {Button, Card, Checkbox, Col, Form, Input, Row, Typography, message} from 'antd';
 import {LockOutlined, UserOutlined} from '@ant-design/icons';
-// import ParticlesLayout from "../components/Layout/ParticlesLayout";
+import { useRouter } from "next/navigation";
+import { store } from "#/store";
 
 const Login = () => {
     // const store = useStore();
     const [loading, setLoading] = useState(false);
+    const router = useRouter()
 
     // let history = useHistory();
 
-    const onFinish = (values: any) => {
-        console.log('Received values of form: ', values);
-        enterLoading(values).then(res => {
-            console.log(res, "awasaa");
-        }).catch((error) => {
-            console.log({error}, "awasaa error");
-        });
-    };
-
-    const enterLoading = async (props: any) => {
-        // store.setInitialToken("ayayay", "clap");
-        // return history.push("/app/page_example_1");
-    };
+    const onFinish = async (values: any) => {
+        try {
+            setLoading(true)
+            const loginResult = store.auth.login(values.email, values.password);
+            message.success('login succes')
+            if((await loginResult).body.data.access_token) {
+                router.push('/admin')
+            } else {
+                router.push('/')
+            }
+        } catch(e: any){
+            console.log(e)
+        }
+      };
 
     return <div style={{width: '100vw', display: 'flex', justifyContent: 'center'}}>
         <Row justify={'center'}>
@@ -125,7 +128,6 @@ const Login = () => {
                                         loading={loading}
                                         htmlType="submit"
                                         size={'large'}
-                                        onSubmit={enterLoading}
                                         className="login-form-button">
                                     Sign In
                                 </Button>

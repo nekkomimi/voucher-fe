@@ -8,6 +8,7 @@ import {useRouter} from "next/navigation";
 import { useForm } from "antd/es/form/Form";
 import type { UploadProps } from 'antd';
 import Image from 'next/image';
+import Banner from '../public/images/Banner.jpg'
 
 
 const { Dragger } = Upload;
@@ -68,129 +69,157 @@ export default function Home() {
   };
 
   return (
-    <div className='container mx-auto h-screen flex justify-center items-center relative'>
-            <img
-                src="https://img.freepik.com/free-vector/gradient-abstract-geometric-background_23-2149120339.jpg?w=1380&t=st=1693850816~exp=1693851416~hmac=95c921b632e7762432db98a73db5b93b00cdeaa4395b57cdb2e3264fff440a20"
-                alt="Banner"
-                className='absolute w-screen h-screen'
-            />
-            <div
-            className='z-40 space-y-10 text-center md:mt-72 mt-0'
-            >
-              <h1 className='font-semibold md:text-7xl text-4xl text-black'>Setup Your Plan</h1>
-                <div className="flex flex-col md:flex-row justify-center md:justify-evenly items-center gap-x-10 gap-y-10">
-                    <div className='bg-blue-500 hover:bg-blue-700 rounded-2xl border-black border-2  md:w-[500px] md:h-[400px] w-60 h-60 flex items-center justify-center' 
-                    onClick={() => {
-                        handleModalOpen()
-                    }}>
-                        <div className="p-6 m-4 space-y-4 md:space-y-8">
-                            <h2 className="md:text-5xl text-4xl font-semibold text-black-800">Gold</h2>
-                            <p className="text-black-600 md:text-3xl text-2xl">1 Month Subscribe</p>
-                            <Divider style={{
-                                height: '3px',
-                                backgroundColor: 'black'
-                            }}></Divider>
-                            <p className="md:text-4xl text-3xl font-semibold text-black-800">100K</p>
-                        </div>
-                    </div>
-                    <div className='bg-orange-500 hover:bg-orange-700 rounded-2xl border-black border-2 md:w-[500px] md:h-[400px] w-60 h-60 flex items-center justify-center'
-                     onClick={() => {
-                        handleModalOpen()
-                    }}>
-                        <div className="p-6 m-4 space-y-4 md:space-y-8">
-                            <h2 className="md:text-5xl text-4xl font-semibold text-black-800">Diamond</h2>
-                            <p className="text-black-600 md:text-3xl text-2xl">3 Month Subscribe</p>
-                            <Divider style={{
-                                height: '3px',
-                                backgroundColor: 'black'
-                            }}></Divider>
-                            <p className="md:text-4xl text-3xl font-semibold text-black-800">180K</p>
-                        </div>
-                    </div>
-                </div>
+    <div className="container mx-auto h-screen flex justify-center items-center relative">
+      {/* <img
+        src="https://img.freepik.com/free-vector/gradient-abstract-geometric-background_23-2149120339.jpg?w=1380&t=st=1693850816~exp=1693851416~hmac=95c921b632e7762432db98a73db5b93b00cdeaa4395b57cdb2e3264fff440a20"
+        alt="Banner"
+        className="absolute w-screen h-screen"
+      /> */}
+      {/* <img src='../public/images/Banner.jpg'></img> */}
+      <Image src={Banner} alt='Banner' className="absolute w-screen h-screen"></Image>
+      <div className="z-40 space-y-10 text-center md:mt-72 mt-0">
+        <div className="flex flex-col md:flex-row justify-center md:justify-evenly items-center gap-x-10 gap-y-10">
+          <div
+            className="bg-white hover:bg-[#f2f2f2] rounded-2xl border-black border-2  md:w-[800px] md:h-[475px] w-60 h-60 flex items-center justify-center"
+            onClick={() => {
+              handleModalOpen();
+            }}
+          >
+            <div className="p-6 m-4 space-y-4 md:space-y-8">
+              <h2 className="md:text-5xl text-4xl font-semibold text-black-800 font-sans">
+                Gold
+              </h2>
+              <p className="text-black-600 md:text-3xl text-2xl font-sans">
+                1 Month Subscribe
+              </p>
+              <Divider
+                style={{
+                  height: "3px",
+                  backgroundColor: "black",
+                }}
+              ></Divider>
+              <p className="md:text-4xl text-3xl font-semibold text-black-800 font-sans">
+                100K
+              </p>
             </div>
-            <Modal
-                title={
-                    <div className="flex justify-between">
-                        <p>Register Voucher</p>
-                        <div
-                            className="absolute right-12 top-4 cursor-pointer px-1 text-gray-400 hover:bg-slate-100 hover:text-gray-900"
-                            onClick={() => handleCancelModal()}
-                        >
-                            <MinusOutlined />
-                        </div>
-                    </div>
-                }
-                open={isModalOpen}
-                onCancel={handleCancelModal}
-                footer={false}
-                maskClosable={false}
-            >
-                <Card className="custom-card">
-                    <Form layout="vertical" form={form} requiredMark={false}>
-                        <Form.Item
-                            label="Name"
-                            name={"name"}
-                            rules={[{ whitespace: true, required: true, message: "Please Input Name" }]}
-                        >
-                            <Input placeholder="Name" />
-                        </Form.Item>
-                        <Form.Item
-                            label="Email"
-                            name={"email"}
-                            rules={[{ whitespace: true, required: true, message: "Please Input Email" }]}
-                        >
-                            <Input placeholder="Email" />
-                        </Form.Item>
-                        <Form.Item
-                            label="Phone"
-                            name={"phone_number"}
-                            rules={[
-                                { required: true, message: "Please Input Phone Number!" },
-                                {
-                                    pattern: /^-?[0-9]*$/,
-                                    message: "Please Input Phone Number Correctly",
-                                },
-                            ]}
-                        >
-                            <Input type="text" maxLength={13} placeholder="Phone Number" />
-                        </Form.Item>
-                        <Form.Item
-                            label="Payment Method"
-                            name={"payment"}
-                        >
-                            <div>
-                                <p>Bank Mandiri | A.N Nugroho Kuncoro Adi | 1590902905920</p>
-                                <Button onClick={copyToClipboard}>Salin Nomor Rekening</Button>
-                            </div>
-                        </Form.Item>
-                        <Form.Item label={"Payment Receipt"}>
-                            <Upload {...props}>
-                                <Button icon={<UploadOutlined />}>Click to Upload</Button>
-                            </Upload>
-                        </Form.Item>
-                        <Col span={24}>
-                            <div className="flex justify-end gap-4">
-                                <Form.Item>
-                                    <Button type="link" onClick={handleCancelModal}>
-                                        Cancel
-                                    </Button>
-                                </Form.Item>
-                                <Form.Item>
-                                    <Button
-                                        type="primary"
-                                        className="antPrimaryButton"
-                                    // onClick={handleSubmitForm}
-                                    // loading={loadingGenerateData}
-                                    >
-                                        Save
-                                    </Button>
-                                </Form.Item>
-                            </div>
-                        </Col>
-                    </Form>
-                </Card>
-            </Modal>
+          </div>
+          <div
+            className="bg-white hover:bg-[#f2f2f2] rounded-2xl border-black border-2  md:w-[800px] md:h-[475px] w-60 h-60 flex items-center justify-center"
+            onClick={() => {
+              handleModalOpen();
+            }}
+          >
+            <div className="p-6 m-4 space-y-4 md:space-y-8">
+              <h2 className="md:text-5xl text-4xl font-semibold text-black-800 font-sans">
+                Diamond
+              </h2>
+              <p className="text-black-600 md:text-3xl text-2xl font-sans">
+                3 Month Subscribe
+              </p>
+              <Divider
+                style={{
+                  height: "3px",
+                  backgroundColor: "black",
+                }}
+              ></Divider>
+              <p className="md:text-4xl text-3xl font-semibold text-black-800 font-sans">
+                180K
+              </p>
+            </div>
+          </div>
         </div>
+      </div>
+      <Modal
+        title={
+          <div className="flex justify-between">
+            <p>Register Voucher</p>
+            <div
+              className="absolute right-12 top-4 cursor-pointer px-1 text-gray-400 hover:bg-slate-100 hover:text-gray-900"
+              onClick={() => handleCancelModal()}
+            >
+              <MinusOutlined />
+            </div>
+          </div>
+        }
+        open={isModalOpen}
+        onCancel={handleCancelModal}
+        footer={false}
+        maskClosable={false}
+      >
+        <Card className="custom-card">
+          <Form layout="vertical" form={form} requiredMark={false}>
+            <Form.Item
+              label="Name"
+              name={"name"}
+              rules={[
+                {
+                  whitespace: true,
+                  required: true,
+                  message: "Please Input Name",
+                },
+              ]}
+            >
+              <Input placeholder="Name" />
+            </Form.Item>
+            <Form.Item
+              label="Email"
+              name={"email"}
+              rules={[
+                {
+                  whitespace: true,
+                  required: true,
+                  message: "Please Input Email",
+                },
+              ]}
+            >
+              <Input placeholder="Email" />
+            </Form.Item>
+            <Form.Item
+              label="Phone"
+              name={"phone_number"}
+              rules={[
+                { required: true, message: "Please Input Phone Number!" },
+                {
+                  pattern: /^-?[0-9]*$/,
+                  message: "Please Input Phone Number Correctly",
+                },
+              ]}
+            >
+              <Input type="text" maxLength={13} placeholder="Phone Number" />
+            </Form.Item>
+            <Form.Item label="Payment Method" name={"payment"}>
+              <div>
+                <p>Bank Mandiri | A.N Nugroho Kuncoro Adi | 1590902905920</p>
+                <Button onClick={copyToClipboard}>Salin Nomor Rekening</Button>
+              </div>
+            </Form.Item>
+            <Form.Item label={"Payment Receipt"}>
+              <Upload {...props}>
+                <Button icon={<UploadOutlined />}>Click to Upload</Button>
+              </Upload>
+            </Form.Item>
+            <Col span={24}>
+              <div className="flex justify-end gap-4">
+                <Form.Item>
+                  <Button type="link" onClick={handleCancelModal}>
+                    Cancel
+                  </Button>
+                </Form.Item>
+                <Form.Item>
+                  <Button
+                    type="primary"
+                    className="antPrimaryButton"
+                    // onClick={handleSubmitForm}
+                    // loading={loadingGenerateData}
+                  >
+                    Save
+                  </Button>
+                </Form.Item>
+              </div>
+            </Col>
+          </Form>
+        </Card>
+      </Modal>
+    </div>
   );
 }

@@ -1,15 +1,29 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Card, Modal, Form, Table, Space, Image, message, DatePicker, Select } from "antd";
 import { store } from "#/store";
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import type { UploadProps } from 'antd';
+import useSWR from "swr";
+import { useRouter } from "next/navigation";
+import { TokenUtil } from "#/utils/token";
+import { transactionRepository } from "#/repository/transaction";
+
+// Create a function to fetch data from the API
+const fetcher = async (url: string) => {
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error("Failed to fetch data");
+  }
+  return response.json();
+};
 
 const { RangePicker } = DatePicker;
 const { Option } = Select;
 
-const data = [
+
+const datas = [
     {
       key: '1',
       nama: 'John Doe',
@@ -44,12 +58,30 @@ const data = [
 
 const Page = () => {
     const [form] = Form.useForm();
-    
+    const router = useRouter();
+  const [transactionData, setTransactionData] = useState(null);
+
+  const {data: dataTransation, isLoading} = transactionRepository.api.useTransaction()
+
+  const response = dataTransation?.body?.data?.data?.map((it: any, index: number) => {
+    return {
+      id: it.id,
+      name: it.name,
+      number: it.number,
+      phone_number: it.phone_number,
+      email: it.email,
+      status: it.status,
+      voucher_id: it.voucher_id,
+      payment_receipt: it.payment_receipt,      
+      transaction_date: it.transaction_date
+    };
+  });
+
     const columns = [
         {
           title: 'Name',
-          dataIndex: 'nama',
-          key: 'nama',
+          dataIndex: 'name',
+          key: 'name',
         },
         {
           title: 'Email',
@@ -58,15 +90,15 @@ const Page = () => {
         },
         {
             title: 'Transaction Date',
-            dataIndex: 'tanggalTransaksi',
-            key: 'tanggaTransaksi',
+            dataIndex: 'transaction_date',
+            key: 'transaction_date',
             sorter: (a: any, b: any) => a.tanggalTransaksi.localeCompare(b.tanggalTransaksi),
             
         },
         {
           title: 'Payment Receipt',
-          dataIndex: 'buktiPembayaran',
-          key: 'buktiPembayaran',
+          dataIndex: 'payment_receipt',
+          key: 'payment_receipt',
         },
         {
             title: 'Status',
@@ -125,7 +157,7 @@ const Page = () => {
                 <p className="font-semibold text-xl">Transaksi</p>
                 <Button>Export</Button>
             </div>
-            <Table columns={columns} dataSource={data} />
+            <Table columns={columns} dataSource={response} />
 
             <Modal
                 title={`Menerima Transaksi dari ${selectedPayment?.nama}`}
