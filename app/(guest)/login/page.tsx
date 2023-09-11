@@ -2,29 +2,41 @@
 
 import React, {useState} from "react";
 // import {observer} from 'mobx-react-lite';
-import {Button, Card, Checkbox, Col, Form, Input, Row, Typography} from 'antd';
+import {Button, Card, Checkbox, Col, Form, Input, Modal, Row, Typography, message, notification} from 'antd';
 import {LockOutlined, UserOutlined} from '@ant-design/icons';
-// import ParticlesLayout from "../components/Layout/ParticlesLayout";
+import { useRouter } from "next/navigation";
+import { store } from "#/store";
 
 const Login = () => {
     // const store = useStore();
     const [loading, setLoading] = useState(false);
+    const router = useRouter()
 
     // let history = useHistory();
 
-    const onFinish = (values: any) => {
-        console.log('Received values of form: ', values);
-        enterLoading(values).then(res => {
-            console.log(res, "awasaa");
-        }).catch((error) => {
-            console.log({error}, "awasaa error");
-        });
-    };
-
-    const enterLoading = async (props: any) => {
-        // store.setInitialToken("ayayay", "clap");
-        // return history.push("/app/page_example_1");
-    };
+    const onFinish = async (values: any) => {
+        try {
+            setLoading(true);
+            const loginResult = await store.auth.login(values.email, values.password);
+            notification.success({ message: "Successfully Logged In" });
+            if (loginResult.body.data.access_token) {
+              router.push("/transaction");
+              return;
+            } else {
+              router.push("/");
+              return;
+            }
+          } catch (e: any) {
+            Modal.error({
+              className: "capitalize",
+              okButtonProps: { type: "primary", className: "antPrimaryButton" },
+              title: "Login failed",
+              content: e?.response?.body?.message ?? e?.response?.body?.error ?? "Unknown error",
+            });
+          } finally {
+            setLoading(false);
+          }
+      };
 
     return <div style={{width: '100vw', display: 'flex', justifyContent: 'center'}}>
         <Row justify={'center'}>
@@ -125,7 +137,6 @@ const Login = () => {
                                         loading={loading}
                                         htmlType="submit"
                                         size={'large'}
-                                        onSubmit={enterLoading}
                                         className="login-form-button">
                                     Sign In
                                 </Button>

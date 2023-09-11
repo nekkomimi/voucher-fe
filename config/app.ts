@@ -1,3 +1,3 @@
 export const config = {
-  baseUrl: (typeof window !== 'undefined' ? (window as any).serverEnv?.DYNAMIC_ENV_BASE_URL : '') || process.env.NEXT_PUBLIC_BASE_URL || 'https://official-joke-api.appspot.com'
+  baseUrl: 'http://192.168.1.3:5000'
 };
