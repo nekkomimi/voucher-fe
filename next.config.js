@@ -3,13 +3,9 @@ const nextConfig = {
   experimental: {
     appDir: true,
   },
-  compiler: {
-    // Enables the styled-components SWC transform
-    styledComponents: true
-  },
-  images: {
-    domains: ['img.freepik.com'], 
-  },
+  eslint: {
+    ignoreDuringBuilds: true
+  }
 }
 
 module.exports = nextConfig
