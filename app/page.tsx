@@ -230,7 +230,7 @@ export default function Home() {
                 <Button icon={<UploadOutlined />}>Click to Upload</Button>
               </Upload>
             </Form.Item>
-            <Col span={24}>
+            <Col span={24} key={null}>
               <div className="flex justify-end gap-4">
                 <Form.Item>
                   <Button type="link" onClick={handleCancelModal}>
