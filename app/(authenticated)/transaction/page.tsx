@@ -40,7 +40,7 @@ const Page = () => {
   const handleOpenModalApprove = () => {
     setVisibleModalApprove(true)
   }
-  
+
   const handleCloseModalApprove = async () => {
     setVisibleModalApprove(false)
     await mutate()
@@ -62,7 +62,7 @@ const Page = () => {
     handleCloseModalApprove
   }
 
-  const columns = [
+  const columns: any = [
     {
       title: "NO",
       key: "number",
@@ -70,7 +70,7 @@ const Page = () => {
       width: "3%",
       align: "center",
       className: "font-semibold",
-      render: (value, item, index) =>
+      render: (value: any, item: any, index: any) =>
         page === 1 ? index + 1 : (page - 1) * pageSize + (index + 1),
     },
     {
@@ -82,7 +82,7 @@ const Page = () => {
       title: 'Transaction Date',
       dataIndex: 'transaction_date',
       key: 'transaction_date',
-      render: (text) =>
+      render: (text: any) =>
         format(parseISO(text), " d MMMM yyyy", {
           locale: enUS,
         }),
@@ -92,13 +92,13 @@ const Page = () => {
       title: 'Voucher Code',
       dataIndex: 'voucher',
       key: 'voucher',
-      render: (text) => text.code
+      render: (text: any) => text.code
     },
     {
       title: 'Payment Receipt',
       dataIndex: 'payment_receipt',
       key: 'payment_receipt',
-      render: (text: any, record: any) => {        
+      render: (text: any, record: any) => {
         return (
           <Image src={text} width={100} height={100}></Image>
         )
@@ -114,7 +114,7 @@ const Page = () => {
       title: 'Reject Reason',
       dataIndex: 'reject_reason',
       key: 'reject_reason',
-      render: (text) => text ?? 'None'
+      render: (text: any) => text ?? 'None'
     },
     {
       title: 'Action',
