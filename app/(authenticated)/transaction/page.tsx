@@ -11,7 +11,6 @@ import { TokenUtil } from "#/utils/token";
 import { transactionRepository } from "#/repository/transaction";
 import { format, parseISO, isBefore } from "date-fns";
 import { enUS } from "date-fns/locale";
-import page from "../about/page";
 import ModalConfirmSave from "#/app/component/ModalApprove";
 import ModalReject from "#/app/component/ModalReject";
 import ModalApprove from "#/app/component/ModalApprove";
@@ -40,7 +39,7 @@ const Page = () => {
   const handleOpenModalApprove = () => {
     setVisibleModalApprove(true)
   }
-  
+
   const handleCloseModalApprove = async () => {
     setVisibleModalApprove(false)
     await mutate()
@@ -62,16 +61,16 @@ const Page = () => {
     handleCloseModalApprove
   }
 
-  const columns = [
+  const columns: any = [
     {
-      title: "NO",
-      key: "number",
-      dataIndex: "number",
-      width: "3%",
-      align: "center",
-      className: "font-semibold",
-      render: (value, item, index) =>
-        page === 1 ? index + 1 : (page - 1) * pageSize + (index + 1),
+      title: 'Transaction Date',
+      dataIndex: 'transaction_date',
+      key: 'transaction_date',
+      render: (text: any) =>
+        format(parseISO(text), " d MMMM yyyy", {
+          locale: enUS,
+        }),
+      sorter: (a: any, b: any) => (isBefore(new Date(a.transaction_date), new Date(b.transaction_date)) ? -1 : 1),
     },
     {
       title: 'Transaction Number',
@@ -79,28 +78,18 @@ const Page = () => {
       key: 'transaction_number',
     },
     {
-      title: 'Transaction Date',
-      dataIndex: 'transaction_date',
-      key: 'transaction_date',
-      render: (text) =>
-        format(parseISO(text), " d MMMM yyyy", {
-          locale: enUS,
-        }),
-      sorter: (a: any, b: any) => (isBefore(new Date(a.transaction_date), new Date(b.transaction_date)) ? -1 : 1),
-    },
-    {
       title: 'Voucher Code',
       dataIndex: 'voucher',
       key: 'voucher',
-      render: (text) => text.code
+      render: (text: any) => text.code
     },
     {
       title: 'Payment Receipt',
       dataIndex: 'payment_receipt',
       key: 'payment_receipt',
-      render: (text: any, record: any) => {        
+      render: (text: any, record: any) => {
         return (
-          <Image src={text} width={100} height={100}></Image>
+          <Image src={text} width={70} height={70}></Image>
         )
       }
     },
@@ -114,7 +103,7 @@ const Page = () => {
       title: 'Reject Reason',
       dataIndex: 'reject_reason',
       key: 'reject_reason',
-      render: (text) => text ?? 'None'
+      render: (text: any) => text ?? 'None'
     },
     {
       title: 'Action',
@@ -138,42 +127,12 @@ const Page = () => {
     },
   ];
 
-  const [acceptModalVisible, setAcceptModalVisible] = useState(false);
-  const [rejectModalVisible, setRejectModalVisible] = useState(false);
-  const [selectedPayment, setSelectedPayment] = useState<{
-    key: string;
-    nama: string;
-  } | null>(null);
-
-  const showAcceptModal = (record: any) => {
-    setSelectedPayment(record);
-    setAcceptModalVisible(true);
-  };
-
-  const showRejectModal = (record: any) => {
-    setSelectedPayment(record);
-    setRejectModalVisible(true);
-  };
-
-  const handleAccept = () => {
-    // Implement logic for accepting the payment with the selectedPayment data
-    // console.log(`Menerima pembayaran dengan kunci: ${selectedPayment.key}`);
-    setAcceptModalVisible(false);
-  };
-
-  const handleReject = () => {
-    // Implement logic for rejecting the payment with the selectedPayment data
-    // console.log(`Menolak pembayaran dengan kunci: ${selectedPayment.key}`);
-    setRejectModalVisible(false);
-  };
-
-
   return (
     <div>
-      <div className="flex justify-between mb-5">
-        <p className="font-semibold text-xl">Transaction</p>
+      <div className="flex flex-col lg:flex-row justify-between mb-5">
+        <p className="font-semibold text-xl mb-2 lg:mb-0">Transaction</p>
       </div>
-      <Table columns={columns} dataSource={dataTransation?.body?.data?.data} />
+      <Table columns={columns} dataSource={dataTransation?.body?.data?.data} size="small" pagination={{ pageSize: 10 }} scroll={{ y: 700 }} />
       <ModalReject {...modalPropsReject}></ModalReject>
       <ModalApprove {...modalPropsApprove}></ModalApprove>
     </div>

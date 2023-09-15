@@ -10,18 +10,18 @@ import type { UploadProps } from 'antd';
 import Image from 'next/image';
 import Banner from '../public/images/Banner.jpg'
 import Success from "#/public/icon/success.png";
-import DiamondButton from '#/public/images/DiamondButton.PNG'
-import GoldButton from '#/public/images/GoldButton.PNG'
+import DiamondButton from '#/public/images/DiamondButton.jpg'
+import GoldButton from '#/public/images/GoldButton.jpg'
 import BannerSlider from '#/public/images/BannerSlider.jpg'
 import Poster from '#/public/images/Poster.jpg'
 import type { UploadFile } from 'antd/es/upload/interface';
 import { transactionRepository } from '#/repository/transaction';
 import { config } from '#/config/app';
+import FormModal from './component/FormModal';
+import SuccessModal from './component/SuccessModal';
 
 
 export default function Home() {
-  const router = useRouter();
-
   const [form] = Form.useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
@@ -30,15 +30,9 @@ export default function Home() {
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const handleChange: UploadProps['onChange'] = (info) => {
     let newFileList = [...info.fileList];
-
-    // 1. Limit the number of uploaded files
-    // Only to show two recent uploaded files, and old ones will be replaced by the new
     newFileList = newFileList.slice(-2);
-
-    // 2. Read from response and show file link
     newFileList = newFileList.map((file) => {
       if (file.response) {
-        // Component will show file.url as link
         file.url = file.response.url;
       }
       return file;
@@ -47,12 +41,14 @@ export default function Home() {
     setFileList(newFileList);
   };
 
-  const props = {
+  const propsUploadFile = {
     action: `${config.baseUrl}/file/upload?type=payment_receipt`,
     onChange: handleChange,
     multiple: true,
     fileList: fileList
   };
+
+
 
   const handleModalOpen = () => {
     setIsModalOpen(true)
@@ -92,15 +88,29 @@ export default function Home() {
     el.select();
     document.execCommand('copy');
     document.body.removeChild(el);
-
-    message.success('nomor rekening berhasil disalin')
   };
 
   const handleCancelModal = () => {
     setIsModalOpen(false)
-    form.resetFields()
+    form.resetFields();
     setFileList([])
   };
+
+  const formModalProps = {
+    handleCancelModal,
+    isModalOpen,
+    voucherType,
+    randomNumber,
+    copyToClipboard,
+    handleSaveModal,
+    propsUploadFile,
+    form
+  }
+
+  const successModalProps = {
+    isSuccessModalOpen,
+    setIsSuccessModalOpen
+  }
 
   return (
     <div className='w-screen h-screen bg-black justify-center items-center mx-auto'>
@@ -108,27 +118,21 @@ export default function Home() {
       {/* Carousel */}
       <div className='w-screen'>
         <Carousel autoplay>
-          <Image src={BannerSlider} alt='banner' className='h-[300px]'></Image>
+          {new Array(3).fill(1).map((it, idx) => {
+            return (
+                <Image src={BannerSlider} alt='banner' className='h-[425px] sm:h-[300px] lg:h-[300px] xl:h-[225px]'></Image>
+            )
+          })}
         </Carousel>
       </div>
-
-      {/* Choose Your Plan */}
       <div className='text-4xl text-white mt-1 flex items-center justify-center'>Choose Your Plan</div>
-
-      {/* Buttons Section */}
       <div className='text-center'>
-        <div className='flex flex-col md:flex-row justify-center items-center gap-x-52'>
-          <Image src={GoldButton} alt='gold' style={{
-            width: '454px',
-            height: '244px'
-          }} onClick={() => {
+        <div className='flex flex-col md:flex-row justify-center items-center gap-x-6 sm:gap-x-12 lg:gap-x-16'>
+          <Image src={GoldButton} alt='gold' className='w-[454px] h-[244px] xl:h-[150px] xl:w-[270px]' onClick={() => {
             setVoucherType("1")
             handleModalOpen();
           }}></Image>
-          <Image src={DiamondButton} alt='diamond' style={{
-            width: '454px',
-            height: '244px'
-          }} onClick={() => {
+          <Image src={DiamondButton} alt='diamond' className='w-[454px] h-[244px] xl:h-[150px] xl:w-[270px]' onClick={() => {
             setVoucherType("2")
             handleModalOpen();
           }}></Image>
@@ -136,144 +140,18 @@ export default function Home() {
       </div>
 
       {/* Posters Section */}
-      <div className='z-40 space-y-10 text-center mt-5'>
-        <div className='flex flex-col md:flex-row justify-center items-center gap-x-28 gap-y-5'>
-          <Image src={Poster} alt='Poster' style={{
-            width: '170px',
-            height: '300px'
-          }}></Image>
-          <Image src={Poster} alt='Poster' style={{
-            width: '170px',
-            height: '300px'
-          }}></Image>
-          <Image src={Poster} alt='Poster' style={{
-            width: '170px',
-            height: '300px'
-          }}></Image>
-          <Image src={Poster} alt='Poster' style={{
-            width: '170px',
-            height: '300px'
-          }}></Image>
-          <Image src={Poster} alt='Poster' style={{
-            width: '170px',
-            height: '300px'
-          }}></Image>
+      <div className='z-40 space-y-5 sm:space-y-10 text-center mt-5'>
+        <div className='flex flex-col md:flex-row justify-center items-center gap-x-5 sm:gap-x-10 lg:gap-x-16 gap-y-3'>
+          {new Array(5).fill(1).map((it, idx) => {
+            return (<>
+              <Image src={Poster} alt='Poster' className='w-[200px] h-[300px] xl:w-[130px] xl:h-[200px]'></Image>
+            </>)
+          })}
         </div>
       </div>
-      <Modal
-        title={
-          <div className="flex justify-between">
-            <p>Buy Voucher</p>
-            <div
-              className="absolute right-12 top-4 cursor-pointer px-1 text-gray-400 hover:bg-slate-100 hover:text-gray-900"
-              onClick={() => handleCancelModal()}
-            >
-              <MinusOutlined />
-            </div>
-          </div>
-        }
-        open={isModalOpen}
-        onCancel={handleCancelModal}
-        footer={false}
-        maskClosable={false}
-      >
-        <Card className="custom-card">
-          <Form layout="vertical" form={form} requiredMark={false}>
-            <Form.Item
-              label="Name"
-              name={"name"}
-              rules={[
-                {
-                  whitespace: true,
-                  required: true,
-                  message: "Please Input Name",
-                },
-              ]}
-            >
-              <Input placeholder="Name" />
-            </Form.Item>
-            <Form.Item
-              label="Email"
-              name={"email"}
-              rules={[
-                {
-                  whitespace: true,
-                  required: true,
-                  message: "Please Input Email",
-                },
-              ]}
-            >
-              <Input placeholder="Email" />
-            </Form.Item>
-            <Form.Item
-              label="Phone"
-              name={"phone_number"}
-              rules={[
-                { required: true, message: "Please Input Phone Number!" },
-                {
-                  pattern: /^-?[0-9]*$/,
-                  message: "Please Input Phone Number Correctly",
-                },
-              ]}
-            >
-              <Input type="text" maxLength={13} placeholder="Phone Number" />
-            </Form.Item>
-            <Form.Item label="Payment Method">
-              <div>
-                <p>Bank Mandiri | A.N Nugroho Kuncoro Adi | 1590902905920</p>
-                <p>Amount: {voucherType == "1" ? `Rp 100.${randomNumber}` : `Rp 180.${randomNumber}`}</p>
-                <Button onClick={copyToClipboard}>Copy to clipboard</Button>
-              </div>
-            </Form.Item>
-            <Form.Item label={"Payment Receipt"}>
-              <Upload {...props}>
-                <Button icon={<UploadOutlined />}>Click to Upload</Button>
-              </Upload>
-            </Form.Item>
-            <Col span={24}>
-              <div className="flex justify-end gap-4">
-                <Form.Item>
-                  <Button type="link" onClick={handleCancelModal}>
-                    Cancel
-                  </Button>
-                </Form.Item>
-                <Form.Item>
-                  <Button
-                    type="primary"
-                    className="antPrimaryButton"
-                    onClick={handleSaveModal}
-                  >
-                    Save
-                  </Button>
-                </Form.Item>
-              </div>
-            </Col>
-          </Form>
-        </Card>
-      </Modal>
-      <Modal
-        open={isSuccessModalOpen}
-        footer={[
-          <Row justify={"center"}>
-            <Col>
-              <Button type="primary" onClick={() => setIsSuccessModalOpen(false)}>
-                Close
-              </Button>
-            </Col>
-          </Row>,
-        ]}
-        width={"400px"}
-        className="modal-delete text-center"
-        onCancel={() => setIsSuccessModalOpen(false)}
-      >
-        <div className="flex flex-col gap-4 justify-center items-center">
-          <div className="flex justify-center items-center h-20 w-20 rounded-full bg-[#E0FFE8]">
-            <Image src={Success} alt="trash" />
-          </div>
-          <div className="text-[18px] font-bold">Your transaction will be checked by our Admin</div>
-          <div className="text-[14px] text-[#A6A6A6]">Please check your email inbox</div>
-        </div>
-      </Modal>
+      <FormModal {...formModalProps}></FormModal>
+      <SuccessModal {...successModalProps}></SuccessModal>
     </div>
   )
 }
+

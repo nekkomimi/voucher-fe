@@ -59,7 +59,7 @@ const Login = () => {
                                 color: "#413d3e",
                             }}
                         >
-                            Boilerplate
+                            Sign In
                         </Typography.Paragraph>
                     </div>
                     <Card
