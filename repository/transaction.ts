@@ -10,6 +10,9 @@ const url = {
 	},
 	rejectTransaction(id: string) {
 		return `/transaction/${id}/reject`
+	},
+	findOneTransaction(id: string) {
+		return `/transaction/${id}`
 	}
 }
 
@@ -17,6 +20,9 @@ const hooks = {
 	useTransaction() {
         return useSWR(url.getTransaction, http.get)
     },
+	useFindOneTransaction(id: string) {
+		return useSWR(url.findOneTransaction(id), http.get)
+	}
 }
 
 const api = {

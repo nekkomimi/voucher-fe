@@ -2,8 +2,15 @@
 
 import { Modal, Card, Form, Input, Button, Upload, Col } from "antd"
 import { MinusOutlined, SearchOutlined, InboxOutlined, UploadOutlined } from "@ant-design/icons";
+import { convertRupiah } from "#/utils/convert_rupiah";
+import { useState } from "react";
 
 const FormModal = (props: any) => {
+  const [total, setTotal] = useState('Rp 0'); 
+  const calculateTotal = (value: any) => {
+    const total = props?.voucherType == "1" ? 100000 * +value.target.value : 180000 * +value.target.value;    
+    setTotal(convertRupiah(total + props?.randomNumber)); 
+  }
     return (
       <>
         <Modal
@@ -65,16 +72,25 @@ const FormModal = (props: any) => {
                 <Input type="text" maxLength={13} placeholder="Phone Number" />
               </Form.Item>
               <Form.Item
-                label="Referral Code ( Optional )"
-                name={"referral_code"}
+                label="Amount"
+                name={"amount"}
                 rules={[
                   {
                     whitespace: true,
-                    required: false,
+                    required: true,
+                    message: "Please Input Amount",
                   },
+                  {
+                    validator(rule, value, callback) {
+                      if (value == 0 || value == '0') {
+                        return Promise.reject('Amount cannot be 0')
+                      }
+                      return Promise.resolve()
+                    },
+                  }
                 ]}
               >
-                <Input placeholder="Referral Code" />
+                <Input placeholder="Amount" onChange={calculateTotal}/>
               </Form.Item>
               <Form.Item label="Payment Method"
               rules={[
@@ -84,7 +100,7 @@ const FormModal = (props: any) => {
               ]}>
                 <div>
                   <p>Bank Mandiri | A.N Nugroho Kuncoro Adi | 1590902905920</p>
-                  <p>Amount: {props?.voucherType == "1" ? `Rp 100.${props?.randomNumber}` : `Rp 180.${props?.randomNumber}`}</p>
+                  <p>Total: {total}</p>
                   <Button onClick={props?.copyToClipboard}>Copy to clipboard</Button>
                 </div>
               </Form.Item>
@@ -104,7 +120,9 @@ const FormModal = (props: any) => {
                     <Button
                       type="primary"
                       className="antPrimaryButton"
-                      onClick={props?.handleSaveModal}
+                      onClick={() => {
+                        props?.handleSaveModal()
+                      }}
                     >
                       Save
                     </Button>

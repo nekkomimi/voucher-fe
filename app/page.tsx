@@ -19,10 +19,14 @@ import { transactionRepository } from '#/repository/transaction';
 import { config } from '#/config/app';
 import FormModal from './component/FormModal';
 import SuccessModal from './component/SuccessModal';
+import { useSearchParams } from 'next/navigation'
 
 
 export default function Home() {
   const [form] = Form.useForm();
+  const params = useSearchParams()
+
+  const ref = params?.get('ref')
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const [voucherType, setVoucherType] = useState("1");
@@ -48,35 +52,38 @@ export default function Home() {
     fileList: fileList
   };
 
-
-
   const handleModalOpen = () => {
     setIsModalOpen(true)
   };
 
   const handleSaveModal = async () => {
-    try {
-      const value = await form.validateFields();
-      const data = {
-        ...value,
-        voucher_type: voucherType,
-        payment_receipt: fileList[0].response.data.url,
-        fee: randomNumber.toString()
-      };
-      const result = await transactionRepository.api.createTransaction(data);
-      if (result.status === 201) {
-        setIsModalOpen(false)
-        setIsSuccessModalOpen(true)
-        form.resetFields()
-        setFileList([])
-      } else {
-        notification.error({
-          message: result.body.error
-        })
-      }
-    } catch (error: any) {
+    if (fileList.length == 0) {
       notification.error({
-        message: 'Please fill the form'
+        message: 'Please upload your payment receipt'
+      })
+    }
+    const value = await form.validateFields();
+    console.log(value);
+    
+
+    const data = {
+      ...value,
+      voucher_type: voucherType,
+      payment_receipt: fileList[0].response.data.url,
+      fee: randomNumber.toString(),
+      referral_code: ref ?? null
+    };
+    const result = await transactionRepository.api.createTransaction(data);
+    if (result.status === 201) {
+      setIsModalOpen(false)
+      setIsSuccessModalOpen(true)
+      form.resetFields()
+      setFileList([])
+    } else {
+      console.log(result);
+      
+      notification.error({
+        message: result.body.error
       })
     }
   }
@@ -118,18 +125,18 @@ export default function Home() {
         <Carousel autoplay>
           {new Array(3).fill(1).map((it, idx) => {
             return (
-              <Image src={BannerSlider} alt='Banner' className='h-[250px] lg:h-[425px]'></Image>
+              <Image src={BannerSlider} alt='Banner' className='h-[250px] xl:h-[325px]'></Image>
             )
           })}
         </Carousel>
       </div>
       <div className='text-2xl lg:text-4xl text-white mt-1 flex items-center justify-center'>Choose Your Plan</div>
       <div className='flex flex-col md:flex-row justify-center items-center gap-x-6 sm:gap-x-12 lg:gap-x-16'>
-        <Image src={GoldButton} alt='GoldButton' className='h-[200px] w-[350px] lg:h-[244px] lg:w-[454px]' onClick={() => {
+        <Image src={GoldButton} alt='GoldButton' className='h-[150px] w-[300px] xl:h-[244px] xl:w-[454px]' onClick={() => {
           setVoucherType("1")
           handleModalOpen()
         }}></Image>
-        <Image src={DiamondButton} alt='DiamondButton' className='h-[200px] w-[350px] lg:h-[244px] lg:w-[454px]'  onClick={() => {
+        <Image src={DiamondButton} alt='DiamondButton' className='h-[150px] w-[300px] xl:h-[244px] xl:w-[454px]' onClick={() => {
           setVoucherType("2")
           handleModalOpen()
         }}></Image>
@@ -137,7 +144,7 @@ export default function Home() {
       <div className='flex flex-col md:flex-row justify-center items-center gap-x-5 sm:gap-x-10 lg:gap-x-16 gap-y-3 mt-2'>
         {new Array(5).fill(1).map((it, idx) => {
           return (
-            <Image src={Poster} alt='Poster' className='w-[100px] h-[150px] lg:w-[200px] lg:h-[300px]' ></Image>
+            <Image src={Poster} alt='Poster' className='w-[150px] h-[250px] xl:w-[200px] xl:h-[300px]' ></Image>
           )
         })}
       </div>

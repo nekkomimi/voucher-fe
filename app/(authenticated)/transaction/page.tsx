@@ -78,12 +78,6 @@ const Page = () => {
       key: 'transaction_number',
     },
     {
-      title: 'Voucher Code',
-      dataIndex: 'voucher',
-      key: 'voucher',
-      render: (text: any) => text.code
-    },
-    {
       title: 'Payment Receipt',
       dataIndex: 'payment_receipt',
       key: 'payment_receipt',
@@ -114,7 +108,7 @@ const Page = () => {
             setSelectedId(record?.id)
             setVisibleModalApprove(true)
           }}>
-            Accept
+            Approve
           </Button>
           <Button icon={<CloseOutlined />} danger onClick={() => {
             setSelectedId(record?.id)
