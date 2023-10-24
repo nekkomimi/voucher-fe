@@ -33,7 +33,7 @@ import { Carousel } from 'react-bootstrap';
 
 
 const dataPoster = [
-  KamarSukaPoster, NikmatLemburPoster, Poster, SupirNgiluPoster, PenjaraHasratPoster
+  KamarSukaPoster, NikmatLemburPoster, Poster, SupirNgiluPoster, PenjaraHasratPoster,
 ]
 
 
@@ -162,10 +162,9 @@ export default function Home() {
         </Carousel>
       </div>
       <div className='max-w-screen-xl mx-auto p-4'>
-        <div className='pt-1'>
+        <div>
           <h1 className='text-white text-center font-bold'>Choose Your Plan</h1>
-          <div className='flex justify-center items-center gap-4 pb-5'>
-
+          <div className='flex justify-center items-center gap-4 pb-3'>
             <div className='w-96'> <Image src={GoldButton} alt='GoldButton' onClick={() => {
               setVoucherType("1")
               handleModalOpen()
