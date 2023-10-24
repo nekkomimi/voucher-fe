@@ -1,8 +1,12 @@
 "use client";
+{
+  /* The following line can be included in your src/index.js or App.js file */
+}
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import React, { useEffect, useState } from 'react';
 import { render } from 'react-dom';
-import { Button, Card, Modal, Form, Radio, Input, Col, Divider, Upload, message, Row, Carousel, notification } from 'antd';
+import { Button, Card, Modal, Form, Radio, Input, Col, Divider, Upload, message, Row, notification } from 'antd';
 import { MinusOutlined, SearchOutlined, InboxOutlined, UploadOutlined } from "@ant-design/icons";
 import { useRouter } from "next/navigation";
 import { useForm } from "antd/es/form/Form";
@@ -25,6 +29,8 @@ import PenjaraHasratPoster from "#/public/images/Penjara_Hasrat Coming_Soon_2.jp
 import SupirNgiluPoster from "#/public/images/Poster_Supir_Ngilu_Coming_Soon_B.jpg"
 import NikmatLemburPoster from "#/public/images/Poster_Nikmat_Lembur_Coming_Soon_B.jpg"
 import KamarSukaPoster from "#/public/images/Poster_Kamar_Suka_Coming_Soon_B.jpg"
+import { Carousel } from 'react-bootstrap';
+
 
 const dataPoster = [
   KamarSukaPoster, NikmatLemburPoster, Poster, SupirNgiluPoster, PenjaraHasratPoster
@@ -133,13 +139,26 @@ export default function Home() {
     <div className='bg-black/90' >
       <FormModal {...formModalProps}></FormModal>
       <SuccessModal {...successModalProps}></SuccessModal>
-      <div>
+      {/* <div>
         <Carousel autoplay autoplaySpeed={1500}>
           {new Array(3).fill(1).map((it, idx) => {
             return (
               <div> <Image src={BannerSlider} alt='Banner' /></div>
             )
           })}
+        </Carousel>
+      </div> */}
+      <div>
+        <Carousel interval={1500}>
+          <Carousel.Item >
+            <div> <Image src={BannerSlider} alt='Banner' /></div>
+          </Carousel.Item>
+          <Carousel.Item >
+            <div> <Image src={BannerSlider} alt='Banner' /></div>
+          </Carousel.Item>
+          <Carousel.Item >
+            <div> <Image src={BannerSlider} alt='Banner' /></div>
+          </Carousel.Item>
         </Carousel>
       </div>
       <div className='max-w-screen-xl mx-auto p-4'>
