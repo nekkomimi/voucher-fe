@@ -2,3 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+img {
+    width: 100%;
+    height: auto;
+    transition: .3 ease all;
+    filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
+}
+
+img:hover {
+    scale: 102%;
+    transition: all;
+    transition-duration: 250ms;
+}

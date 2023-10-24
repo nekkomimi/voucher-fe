@@ -20,6 +20,15 @@ import { config } from '#/config/app';
 import FormModal from './component/FormModal';
 import SuccessModal from './component/SuccessModal';
 import { useSearchParams } from 'next/navigation'
+import CiimaxIogo from "../public/images/Climax_Logo_Full.png"
+import PenjaraHasratPoster from "#/public/images/Penjara_Hasrat Coming_Soon_2.jpg"
+import SupirNgiluPoster from "#/public/images/Poster_Supir_Ngilu_Coming_Soon_B.jpg"
+import NikmatLemburPoster from "#/public/images/Poster_Nikmat_Lembur_Coming_Soon_B.jpg"
+import KamarSukaPoster from "#/public/images/Poster_Kamar_Suka_Coming_Soon_B.jpg"
+
+const dataPoster = [
+  KamarSukaPoster, NikmatLemburPoster, Poster, SupirNgiluPoster, PenjaraHasratPoster
+]
 
 
 export default function Home() {
@@ -64,7 +73,7 @@ export default function Home() {
     }
     const value = await form.validateFields();
     console.log(value);
-    
+
 
     const data = {
       ...value,
@@ -81,7 +90,7 @@ export default function Home() {
       setFileList([])
     } else {
       console.log(result);
-      
+
       notification.error({
         message: result.body.error
       })
@@ -119,75 +128,60 @@ export default function Home() {
     setIsSuccessModalOpen
   }
 
+
   return (
-    <div className='mx-auto w-screen h-screen bg-black relative'>
-      <div className='max-w mx-auto'>
-        <Carousel autoplay>
+    <div className='bg-black/90' >
+      <FormModal {...formModalProps}></FormModal>
+      <SuccessModal {...successModalProps}></SuccessModal>
+      <div>
+        <Carousel autoplay autoplaySpeed={1500}>
           {new Array(3).fill(1).map((it, idx) => {
             return (
-              <Image src={BannerSlider} alt='Banner' className='h-[250px] xl:h-[325px]'></Image>
+              <div> <Image src={BannerSlider} alt='Banner' /></div>
             )
           })}
         </Carousel>
       </div>
-      <div className='text-2xl lg:text-4xl text-white mt-1 flex items-center justify-center'>Choose Your Plan</div>
-      <div className='flex flex-col md:flex-row justify-center items-center gap-x-6 sm:gap-x-12 lg:gap-x-16'>
-        <Image src={GoldButton} alt='GoldButton' className='h-[150px] w-[300px] xl:h-[244px] xl:w-[454px]' onClick={() => {
-          setVoucherType("1")
-          handleModalOpen()
-        }}></Image>
-        <Image src={DiamondButton} alt='DiamondButton' className='h-[150px] w-[300px] xl:h-[244px] xl:w-[454px]' onClick={() => {
-          setVoucherType("2")
-          handleModalOpen()
-        }}></Image>
+      <div className='max-w-screen-xl mx-auto p-4'>
+        <div className='pt-1'>
+          <h1 className='text-white text-center font-bold'>Choose Your Plan</h1>
+          <div className='flex justify-center items-center gap-4 pb-5'>
+
+            <div className='w-96'> <Image src={GoldButton} alt='GoldButton' onClick={() => {
+              setVoucherType("1")
+              handleModalOpen()
+            }} /></div>
+
+            <div className='w-96'> <Image src={DiamondButton} alt='DiamondButton' onClick={() => {
+              setVoucherType("2")
+              handleModalOpen()
+            }} /> </div>
+          </div>
+        </div>
+        <div className='grid grid-cols-2 sm:grid-cols-4 xl:grid-cols-5 gap-4 justify-items-center'>
+          {
+            dataPoster?.map((imageUrl) => <div className='w-full rounded-sm cursor-pointer' >
+              <Image src={imageUrl} alt='Poster' className='rounded-lg' />
+            </div>)
+          }
+        </div>
       </div>
-      <div className='flex flex-col md:flex-row justify-center items-center gap-x-5 sm:gap-x-10 lg:gap-x-16 gap-y-3 mt-2'>
-        {new Array(5).fill(1).map((it, idx) => {
-          return (
-            <Image src={Poster} alt='Poster' className='w-[150px] h-[250px] xl:w-[200px] xl:h-[300px]' ></Image>
-          )
-        })}
+      <div>
       </div>
-      <FormModal {...formModalProps}></FormModal>
-      <SuccessModal {...successModalProps}></SuccessModal>
+      <footer>
+        <div className='flex flex-col xl:flex-row justify-between items-center'>
+          <div></div>
+          <div className='text-center xl:ml-28'>
+            <p className='text-lg text-white'>Create Design With 💗</p>
+          </div>
+          <div className='w-28 p-2'>
+            <Image src={CiimaxIogo} alt='CiimaxIogo' />
+          </div>
+        </div>
+      </footer>
+
     </div>
-    // <div className='w-screen h-screen bg-black justify-center items-center mx-auto'>
 
-    //   {/* Carousel */}
-    //   <div className='w-screen'>
-    //     <Carousel autoplay>
-    //       {new Array(3).fill(1).map((it, idx) => {
-    //         return (
-    //             <Image src={BannerSlider} alt='banner' className='h-[425px] sm:h-[300px] lg:h-[300px] xl:h-[225px]'></Image>
-    //         )
-    //       })}
-    //     </Carousel>
-    //   </div>
-    //   <div className='text-4xl text-white mt-1 flex items-center justify-center'>Choose Your Plan</div>
-    //   <div className='text-center'>
-    //     <div className='flex flex-col md:flex-row justify-center items-center gap-x-6 sm:gap-x-12 lg:gap-x-16'>
-    //       <Image src={GoldButton} alt='gold' className='w-[454px] h-[244px] xl:h-[150px] xl:w-[270px]' onClick={() => {
-    //         setVoucherType("1")
-    //         handleModalOpen();
-    //       }}></Image>
-    //       <Image src={DiamondButton} alt='diamond' className='w-[454px] h-[244px] xl:h-[150px] xl:w-[270px]' onClick={() => {
-    //         setVoucherType("2")
-    //         handleModalOpen();
-    //       }}></Image>
-    //     </div>
-    //   </div>
-
-    //   {/* Posters Section */}
-    //   <div className='z-40 space-y-5 sm:space-y-10 text-center mt-5'>
-    //     <div className='flex flex-col md:flex-row justify-center items-center gap-x-5 sm:gap-x-10 lg:gap-x-16 gap-y-3'>
-    //       {new Array(5).fill(1).map((it, idx) => {
-    //         return (<>
-    //           <Image src={Poster} alt='Poster' className='w-[200px] h-[300px] xl:w-[130px] xl:h-[200px]'></Image>
-    //         </>)
-    //       })}
-    //     </div>
-    //   </div>
-    // </div>
   )
 }
 
