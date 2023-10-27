@@ -181,7 +181,7 @@ export default function Home() {
         <div className='grid grid-cols-2 sm:grid-cols-4 xl:grid-cols-5 gap-4 justify-items-center'>
           {
             dataPoster?.map((imageUrl) => <div className='w-full rounded-sm cursor-pointer' >
-              <Image src={imageUrl} alt='Poster' className='rounded-lg' />
+              <Image src={imageUrl} alt='Poster' className='rounded-lg' onClick={() =>  window.open('https://www.climaxmovie.com', '_blank')}/>
             </div>)
           }
         </div>

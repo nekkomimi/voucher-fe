@@ -58,15 +58,22 @@ const PaymentStatus = () => {
             <Result
                 status="success"
                 title="Success in purchasing vouchers"
-                subTitle="You can redeem the voucher on https://www.climaxmovie.com"
+                subTitle="Please check your email inbox or your spam folder. You can redeem the voucher on https://www.climaxmovie.com"
                 extra={
-                  <Button
-                    type="primary"
-                    className="antPrimaryButton"
+                  [
+                    <Button
                     onClick={() => router.push('/')}
                   >
                     Back
+                  </Button>,
+                  <Button
+                    type="primary"
+                    className="antPrimaryButton"
+                    onClick={() => window.open('https://www.climaxmovie.com')}
+                  >
+                    Reedem Now
                   </Button>
+                  ]
                 }
               />
         ) : (
