@@ -14,8 +14,8 @@ import type { UploadProps } from 'antd';
 import Image from 'next/image';
 import Banner from '../public/images/Banner.jpg'
 import Success from "#/public/icon/success.png";
-import DiamondButton from '#/public/images/DiamondButton.jpg'
-import GoldButton from '#/public/images/GoldButton.jpg'
+import DiamondButton from '#/public/images/Voucher_Template_Diamond_Marketplace.jpg'
+import GoldButton from '#/public/images/Voucher_Template_Gold_Marketplace.jpg'
 import BannerSlider from '#/public/images/BannerSlider.jpg'
 import Poster from '#/public/images/Poster.jpg'
 import type { UploadFile } from 'antd/es/upload/interface';
