@@ -1,15 +1,15 @@
 'use client'
 
-import { Modal, Card, Form, Input, Button, Upload, Col } from "antd"
+import {Modal, Card, Form, Input, Button, Upload, Col, InputNumber} from "antd"
 import { MinusOutlined, SearchOutlined, InboxOutlined, UploadOutlined } from "@ant-design/icons";
 import { convertRupiah } from "#/utils/convert_rupiah";
 import { useState } from "react";
 
 const FormModal = (props: any) => {
-  const [total, setTotal] = useState('Rp 0'); 
+  const [total, setTotal] = useState('Rp 0');
   const calculateTotal = (value: any) => {
-    const total = props?.voucherType == "1" ? 100000 * +value.target.value : 180000 * +value.target.value;    
-    setTotal(convertRupiah(total + props?.randomNumber)); 
+    const total = props?.voucherType == "1" ? 100000 * +value.target.value : 180000 * +value.target.value;
+    setTotal(convertRupiah(total + props?.randomNumber));
   }
     return (
       <>
@@ -89,13 +89,12 @@ const FormModal = (props: any) => {
                 name={"amount"}
                 rules={[
                   {
-                    whitespace: true,
                     required: true,
                     message: "Please Input Amount",
                   },
                   {
                     validator(rule, value, callback) {
-                      if (value == 0 || value == '0') {
+                      if (value == 0) {
                         return Promise.reject('Amount cannot be 0')
                       }
                       return Promise.resolve()
@@ -103,7 +102,9 @@ const FormModal = (props: any) => {
                   }
                 ]}
               >
-                <Input placeholder="Amount" onChange={calculateTotal}/>
+                <InputNumber style={{
+                  width: '100%'
+                }} placeholder="Amount"/>
               </Form.Item>
               {/* <Form.Item label="Payment Method"
               rules={[
