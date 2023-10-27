@@ -13,6 +13,9 @@ const url = {
 	},
 	findOneTransaction(id: string) {
 		return `/transaction/${id}`
+	},
+	setExpiredTransaction(id: string){
+		return `/transaction/set-expired/${id}`
 	}
 }
 
@@ -34,6 +37,9 @@ const api = {
 	},
 	rejectTransaction(id: string, data: any) {
 		return http.post(url.rejectTransaction(id)).send(data)
+	},
+	setExpiredTransaction(id: string) {
+		return http.post(url.setExpiredTransaction(id))
 	}
 }
 

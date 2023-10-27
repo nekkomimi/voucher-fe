@@ -33,17 +33,30 @@ const FormModal = (props: any) => {
           <Card className="custom-card">
             <Form layout="vertical" form={props?.form} requiredMark={false}>
               <Form.Item
-                label="Name"
-                name={"name"}
+                label="First Name"
+                name={"first_name"}
                 rules={[
                   {
                     whitespace: true,
                     required: true,
-                    message: "Please Input Name",
+                    message: "Please Input First Name",
                   },
                 ]}
               >
-                <Input placeholder="Name" />
+                <Input placeholder="First Name" />
+              </Form.Item>
+              <Form.Item
+                label="Last Name"
+                name={"last_name"}
+                rules={[
+                  {
+                    whitespace: true,
+                    required: true,
+                    message: "Please Input Last Name",
+                  },
+                ]}
+              >
+                <Input placeholder="Last Name" />
               </Form.Item>
               <Form.Item
                 label="Email"
@@ -92,7 +105,7 @@ const FormModal = (props: any) => {
               >
                 <Input placeholder="Amount" onChange={calculateTotal}/>
               </Form.Item>
-              <Form.Item label="Payment Method"
+              {/* <Form.Item label="Payment Method"
               rules={[
                 {
                     required: true
@@ -108,7 +121,7 @@ const FormModal = (props: any) => {
                 <Upload {...props?.propsUploadFile}>
                   <Button icon={<UploadOutlined />}>Click to Upload</Button>
                 </Upload>
-              </Form.Item>
+              </Form.Item> */}
               <Col span={24}>
                 <div className="flex justify-end gap-4">
                   <Form.Item>
@@ -124,7 +137,7 @@ const FormModal = (props: any) => {
                         props?.handleSaveModal()
                       }}
                     >
-                      Save
+                      Buy
                     </Button>
                   </Form.Item>
                 </div>

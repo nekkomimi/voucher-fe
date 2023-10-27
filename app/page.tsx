@@ -46,37 +46,37 @@ export default function Home() {
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const [voucherType, setVoucherType] = useState("1");
   const [randomNumber, setRandomNumber] = useState(Math.floor(Math.random() * 900) + 100);
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
-  const handleChange: UploadProps['onChange'] = (info) => {
-    let newFileList = [...info.fileList];
-    newFileList = newFileList.slice(-2);
-    newFileList = newFileList.map((file) => {
-      if (file.response) {
-        file.url = file.response.url;
-      }
-      return file;
-    });
+  // const [fileList, setFileList] = useState<UploadFile[]>([]);
+  // const handleChange: UploadProps['onChange'] = (info) => {
+  //   let newFileList = [...info.fileList];
+  //   newFileList = newFileList.slice(-2);
+  //   newFileList = newFileList.map((file) => {
+  //     if (file.response) {
+  //       file.url = file.response.url;
+  //     }
+  //     return file;
+  //   });
 
-    setFileList(newFileList);
-  };
+  //   setFileList(newFileList);
+  // };
 
-  const propsUploadFile = {
-    action: `${config.baseUrl}/file/upload?type=payment_receipt`,
-    onChange: handleChange,
-    multiple: true,
-    fileList: fileList
-  };
+  // const propsUploadFile = {
+  //   action: `${config.baseUrl}/file/upload?type=payment_receipt`,
+  //   onChange: handleChange,
+  //   multiple: true,
+  //   fileList: fileList
+  // };
 
   const handleModalOpen = () => {
     setIsModalOpen(true)
   };
 
   const handleSaveModal = async () => {
-    if (fileList.length == 0) {
-      notification.error({
-        message: 'Please upload your payment receipt'
-      })
-    }
+    // if (fileList.length == 0) {
+    //   notification.error({
+    //     message: 'Please upload your payment receipt'
+    //   })
+    // }
     const value = await form.validateFields();
     console.log(value);
 
@@ -84,16 +84,16 @@ export default function Home() {
     const data = {
       ...value,
       voucher_type: voucherType,
-      payment_receipt: fileList[0].response.data.url,
       fee: randomNumber.toString(),
       referral_code: ref ?? null
     };
     const result = await transactionRepository.api.createTransaction(data);
     if (result.status === 201) {
       setIsModalOpen(false)
-      setIsSuccessModalOpen(true)
+      // setIsSuccessModalOpen(true)
       form.resetFields()
-      setFileList([])
+      
+      window.location = result.body?.data?.payment_url
     } else {
       console.log(result);
 
@@ -115,7 +115,7 @@ export default function Home() {
   const handleCancelModal = () => {
     setIsModalOpen(false)
     form.resetFields();
-    setFileList([])
+    // setFileList([])
   };
 
   const formModalProps = {
@@ -123,9 +123,9 @@ export default function Home() {
     isModalOpen,
     voucherType,
     randomNumber,
-    copyToClipboard,
+    // copyToClipboard,
     handleSaveModal,
-    propsUploadFile,
+    // propsUploadFile,
     form
   }
 
@@ -148,7 +148,9 @@ export default function Home() {
           })}
         </Carousel>
       </div> */}
-      <div>
+      <div onClick={() => {
+        window.open('https://www.climaxmovie.com', '_blank')
+      }}>
         <Carousel interval={1500}>
           <Carousel.Item >
             <div> <Image src={BannerSlider} alt='Banner' /></div>
