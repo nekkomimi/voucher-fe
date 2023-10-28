@@ -85,7 +85,7 @@ const FormModal = (props: any) => {
                 <Input type="text" maxLength={13} placeholder="Phone Number" />
               </Form.Item>
               <Form.Item
-                label="Amount"
+                label="Voucher Amount"
                 name={"amount"}
                 rules={[
                   {
@@ -104,7 +104,7 @@ const FormModal = (props: any) => {
               >
                 <InputNumber style={{
                   width: '100%'
-                }} placeholder="Amount"/>
+                }} placeholder="Voucher Amount"/>
               </Form.Item>
               {/* <Form.Item label="Payment Method"
               rules={[
