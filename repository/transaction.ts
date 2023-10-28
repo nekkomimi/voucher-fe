@@ -40,6 +40,9 @@ const api = {
 	},
 	setExpiredTransaction(id: string) {
 		return http.post(url.setExpiredTransaction(id))
+	},
+	findOneTransaction(id: string) {
+		return http.get(url.findOneTransaction(id))
 	}
 }
 

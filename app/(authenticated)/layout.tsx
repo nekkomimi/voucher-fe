@@ -33,6 +33,11 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({children}) => 
       icon: <HomeFilled/>,
       label: `Transaction`,
     },
+    {
+      key: `/voucher`,
+      icon: <HomeFilled/>,
+      label: `Voucher`,
+    },
   ]
 
   // Function to handle logout
