@@ -11,7 +11,7 @@ export default function Head() {
       <title>Get Voucher</title>
       <meta content="width=device-width, initial-scale=1" name="viewport" />
       <meta name="description" content="Boilerplate" />
-      <link rel="icon" href="/favicon.ico" />
+      <link rel="icon" href="/app/icon.ico" sizes={'any'}/>
     </>
   )
 }

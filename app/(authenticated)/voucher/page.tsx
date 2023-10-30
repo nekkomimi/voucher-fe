@@ -26,7 +26,6 @@ const Voucher = () => {
             dataIndex: 'no',
             key: 'no',
             width: 100,
-            align: 'center',
             render: (text: string, record: any, index: number) => (page - 1) * pageSize + index + 1
         },
         {
