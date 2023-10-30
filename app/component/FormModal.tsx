@@ -94,7 +94,7 @@ const FormModal = (props: any) => {
                   },
                   {
                     validator(rule, value, callback) {
-                      if (value == 0) {
+                      if (value < 0) {
                         return Promise.reject('Amount cannot be 0')
                       }
                       return Promise.resolve()
@@ -106,23 +106,6 @@ const FormModal = (props: any) => {
                   width: '100%'
                 }} placeholder="Voucher Amount"/>
               </Form.Item>
-              {/* <Form.Item label="Payment Method"
-              rules={[
-                {
-                    required: true
-                }
-              ]}>
-                <div>
-                  <p>Bank Mandiri | A.N Nugroho Kuncoro Adi | 1590902905920</p>
-                  <p>Total: {total}</p>
-                  <Button onClick={props?.copyToClipboard}>Copy to clipboard</Button>
-                </div>
-              </Form.Item>
-              <Form.Item label={"Payment Receipt"}>
-                <Upload {...props?.propsUploadFile}>
-                  <Button icon={<UploadOutlined />}>Click to Upload</Button>
-                </Upload>
-              </Form.Item> */}
               <Col span={24}>
                 <div className="flex justify-end gap-4">
                   <Form.Item>

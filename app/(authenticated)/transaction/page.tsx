@@ -15,7 +15,7 @@ import ModalConfirmSave from "#/app/component/ModalApprove";
 import ModalReject from "#/app/component/ModalReject";
 import ModalApprove from "#/app/component/ModalApprove";
 import {convertRupiah} from "#/utils/convert_rupiah";
-import ModalDetailTransaction from "#/app/component/ModalDetailTransaction";
+import ModalDetailTransaction from "#/app/component/ModalDetail";
 
 const Page = () => {
   const [form] = Form.useForm();
@@ -74,6 +74,14 @@ const Page = () => {
   }
 
   const columns: any = [
+    {
+      title: 'No',
+      dataIndex: 'no',
+      key: 'no',
+      width: 100,
+      align: 'center',
+      render: (text: string, record: any, index: number) => (page - 1) * pageSize + index + 1
+  },
     {
       title: 'Transaction Number',
       dataIndex: 'transaction_number',
