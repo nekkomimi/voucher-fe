@@ -14,8 +14,8 @@ const url = {
 	findOneTransaction(id: string) {
 		return `/transaction/${id}`
 	},
-	setExpiredTransaction(id: string){
-		return `/transaction/set-expired/${id}`
+	findOneByRefId(id: string){
+		return `/transaction/success/${id}`
 	}
 }
 
@@ -38,8 +38,8 @@ const api = {
 	rejectTransaction(id: string, data: any) {
 		return http.post(url.rejectTransaction(id)).send(data)
 	},
-	setExpiredTransaction(id: string) {
-		return http.post(url.setExpiredTransaction(id))
+	findOneByRefId(id: string) {
+		return http.get(url.findOneByRefId(id))
 	},
 	findOneTransaction(id: string) {
 		return http.get(url.findOneTransaction(id))

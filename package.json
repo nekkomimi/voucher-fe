@@ -25,6 +25,7 @@
     "react": "18.2.0",
     "react-bootstrap": "^2.9.1",
     "react-dom": "18.2.0",
+    "react-icons": "^4.11.0",
     "sharp": "^0.32.6",
     "superagent": "^8.0.9",
     "superagent-intercept": "^0.1.2",

@@ -6,6 +6,7 @@ import ModalApprove from "#/app/component/ModalApprove";
 import React, { useState } from "react";
 import { voucherRepository } from "#/repository/voucher";
 import ModalDetail from "#/app/component/ModalDetail";
+import { ColumnsType } from "antd/es/table";
 
 const Voucher = () => {
     const [page, setPage] = useState(1);
@@ -20,12 +21,13 @@ const Voucher = () => {
         return;
     }
 
-    const columns = [
+    const columns: ColumnsType<any> = [
         {
             title: 'No',
             dataIndex: 'no',
             key: 'no',
             width: 100,
+            align: 'center',
             render: (text: string, record: any, index: number) => (page - 1) * pageSize + index + 1
         },
         {

@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import {HomeFilled, InfoCircleFilled, LaptopOutlined, NotificationOutlined, UserOutlined} from '@ant-design/icons';
+import {HomeFilled, ControlOutlined, FileOutlined, NotificationOutlined, UserOutlined, CreditCardOutlined} from '@ant-design/icons';
 import {Button, MenuProps} from 'antd';
 import {Breadcrumb, Layout, Menu, theme} from 'antd';
 import {useRouter} from "next/navigation";
@@ -29,19 +29,29 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({children}) => 
 
   const menu: MenuProps['items'] = [
     {
-      key: `/transaction`,
+      key: `/dashboard`,
       icon: <HomeFilled/>,
+      label: `Dashboard`,
+    },
+    {
+      key: `/transaction`,
+      icon: <CreditCardOutlined />,
       label: `Transaction`,
     },
     {
       key: `/voucher`,
-      icon: <HomeFilled/>,
+      icon: <FileOutlined />,
       label: `Voucher`,
     },
     {
       key: `/users`,
-      icon: <HomeFilled/>,
+      icon: <UserOutlined />,
       label: `Users`,
+    },
+    {
+      key: `/content`,
+      icon: <ControlOutlined />,
+      label: `Content`,
     },
   ]
 

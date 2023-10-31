@@ -94,15 +94,17 @@ const FormModal = (props: any) => {
                   },
                   {
                     validator(rule, value, callback) {
-                      if (value < 0) {
+                      if (value <= 0) {
                         return Promise.reject('Amount cannot be 0')
+                      } else if (value > 10) {
+                        return Promise.reject('Maximum voucher amount is 10')
                       }
                       return Promise.resolve()
                     },
                   }
                 ]}
               >
-                <InputNumber style={{
+                <InputNumber min={0} style={{
                   width: '100%'
                 }} placeholder="Voucher Amount"/>
               </Form.Item>
@@ -117,7 +119,7 @@ const FormModal = (props: any) => {
                     <Button
                       type="primary"
                       className="antPrimaryButton"
-                      onClick={() => {
+                      onClick={(event) => {
                         props?.handleSaveModal()
                       }}
                     >
