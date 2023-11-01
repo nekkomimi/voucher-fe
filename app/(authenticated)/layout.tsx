@@ -48,11 +48,6 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({children}) => 
       icon: <UserOutlined />,
       label: `Users`,
     },
-    {
-      key: `/content`,
-      icon: <ControlOutlined />,
-      label: `Content`,
-    },
   ]
 
   // Function to handle logout

@@ -17,9 +17,14 @@ import CiimaxIogo from "../public/images/Climax_Logo_Full.jpg"
 import { Carousel } from 'react-bootstrap';
 import ThumbnailPoster from '#/public/images/Thumbnail_Poster.jpg'
 import ThumbnailPoster2 from '#/public/images/Thumbnail_Poster_2.jpg'
+import Banner1 from '#/public/images/Banner_Promo_Prelaunch.jpg'
+import Banner2 from '#/public/images/Banner_Promo_Prelaunch_2.jpg'
+import GoldButton from '#/public/images/Voucher_Template_Gold_Marketplace.jpg';
+import DiamondButton from '#/public/images/Voucher_Template_Diamond_Marketplace.jpg';
 import Loading from "./component/Loading";
 
 const dataPoster = [ThumbnailPoster, ThumbnailPoster2]
+const dataBanner = [Banner1, Banner2];
 export default function Home() {
   const [form] = Form.useForm();
   const params = useSearchParams()
@@ -31,14 +36,13 @@ export default function Home() {
   const [voucherType, setVoucherType] = useState("1");
   const [randomNumber, setRandomNumber] = useState(Math.floor(Math.random() * 900) + 100);
 
-  const { data: cmsData } = cmsRepository.hooks.useFindCMS()
-
-
   const handleModalOpen = () => {
     setIsModalOpen(true)
   };
 
   const handleSaveModal = async () => {
+    setIsLoading(true)
+
     const value = await form.validateFields();
     const data = {
       ...value,
@@ -46,8 +50,8 @@ export default function Home() {
       fee: randomNumber.toString(),
       referral_code: ref ?? null
     };
+
     try {
-      setIsLoading(true)
       const result = await transactionRepository.api.createTransaction(data);
       if (result.status === 201) {
         setIsModalOpen(false)
@@ -78,9 +82,10 @@ export default function Home() {
     handleCancelModal,
     isModalOpen,
     voucherType,
-    randomNumber,
     handleSaveModal,
-    form
+    form,
+    isLoading,
+    setIsLoading,
   }
 
   const successModalProps = {
@@ -91,7 +96,6 @@ export default function Home() {
 
   return (
    <div>
-    {isLoading && <Loading />}
      <div className='bg-black/90 min-h-screen' >
       <FormModal {...formModalProps}></FormModal>
       <SuccessModal {...successModalProps}></SuccessModal>
@@ -99,7 +103,7 @@ export default function Home() {
         window.open('https://www.climaxmovie.com', '_blank')
       }}>
         <Carousel interval={1500} controls={false}>
-          {cmsData?.body?.data?.data[0]?.banner.map((banner: string) => (
+          {dataBanner.map((banner) => (
             <Carousel.Item>
               <div>
                 <Image src={banner} alt="Banner" width={1920} height={1080} />
@@ -113,12 +117,12 @@ export default function Home() {
         <div>
           <h1 className='text-white text-center font-bold'>Choose Your Plan</h1>
           <div className='flex justify-center items-center gap-4 pb-3'>
-            <div className='w-96'> <Image src={cmsData?.body?.data?.data[0]?.gold_membership_button} alt='GoldButton' width={1080} height={1920} onClick={() => {
+            <div className='w-96'> <Image src={GoldButton} alt='GoldButton' width={1080} height={1920} onClick={() => {
               setVoucherType("1")
               handleModalOpen()
             }} /></div>
 
-            <div className='w-96'> <Image src={cmsData?.body?.data?.data[0]?.diamond_membership_button} alt='DiamondButton' width={1080} height={1920} onClick={() => {
+            <div className='w-96'> <Image src={DiamondButton} alt='DiamondButton' width={1080} height={1920} onClick={() => {
               setVoucherType("2")
               handleModalOpen()
             }} /> </div>
@@ -126,7 +130,7 @@ export default function Home() {
         </div>
         <div className='grid grid-cols-2 sm:flex sm:justify-center sm:flex-wrap gap-8'>
           {
-            cmsData?.body?.data?.data[0]?.poster.map((imageUrl: string) => <div className='sm:w-52 xl:w-64 rounded-sm cursor-pointer' >
+            dataPoster.map((imageUrl) => <div className='sm:w-52 xl:w-64 rounded-sm cursor-pointer' >
               <Image src={imageUrl} width={1920} height={1080} alt='Poster' className='rounded-lg' onClick={() => window.open('https://www.climaxmovie.com', '_blank')} />
             </div>)
           }
