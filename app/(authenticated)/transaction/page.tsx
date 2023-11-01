@@ -16,17 +16,19 @@ import ModalReject from "#/app/component/ModalReject";
 import ModalApprove from "#/app/component/ModalApprove";
 import {convertRupiah} from "#/utils/convert_rupiah";
 import ModalDetailTransaction from "#/app/component/ModalDetail";
+import {ColumnsType} from "antd/es/table";
 
 const Page = () => {
   const [form] = Form.useForm();
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
+  const [status, setStatus] = useState('')
   const [isModalDetailOpen, setModalDetailOpen] = useState(false)
   const [modalData, setModalData] = useState({})
   const [modalPropsData, setModalPropsData] = useState([]);
   const [tableData, setTableData] = useState([]);
   const [tableColumn, setTableColumn] = useState([]);
-  const { data: dataTransation, isLoading, mutate } = transactionRepository.hooks.useTransaction();
+  const { data: dataTransation, isLoading, mutate } = transactionRepository.hooks.useTransaction(page, pageSize, status);
 
   const handleOpenModalDetail = async (id: string) => {
     try {
@@ -73,7 +75,7 @@ const Page = () => {
     setModalDetailOpen(false)
   }
 
-  const columns: any = [
+  const columns: ColumnsType<any> = [
     {
       title: 'No',
       dataIndex: 'no',
@@ -106,7 +108,22 @@ const Page = () => {
       title: 'Status',
       dataIndex: 'status',
       key: 'status',
-      render: (text: any) => text.replace('_', ' ').toUpperCase()
+      render: (text: any) => text.replace('_', ' ').toUpperCase(),
+      filters: [
+        {
+          text: 'PAID',
+          value: 'PAID',
+        },
+        {
+          text: 'EXPIRED',
+          value: 'EXPIRED',
+        },
+        {
+          text: 'PENDING',
+          value: 'PENDING',
+        },
+      ],
+      defaultFilteredValue: ['PENDING', 'EXPIRED', 'PAID']
     },
     {
       title: 'Unique Code',
@@ -141,7 +158,20 @@ const Page = () => {
       <div className="flex flex-col lg:flex-row justify-between mb-5">
         <p className="font-semibold text-xl mb-2 lg:mb-0">Transaction</p>
       </div>
-      <Table columns={columns} dataSource={dataTransation?.body?.data?.data} pagination={{ pageSize: 10 }} scroll={{ y: 700 }} />
+      <Table columns={columns} dataSource={dataTransation?.body?.data?.data} pagination={{
+        pageSize: pageSize,
+        current: page,
+        onChange: (page, pageSize) => {
+          setPage(page);
+          setPageSize(pageSize)
+        },
+        total: dataTransation?.body?.data?.count,
+      }} scroll={{ y: 700 }} onChange={(pagination, filters, sorter, extra) => {
+        console.log(filters)
+        if (filters.status) {
+          setStatus(filters.status.join(','))
+        }
+      }}/>
       <ModalDetailTransaction
           form={form}
           formFields={modalPropsData}

@@ -5,6 +5,9 @@ const url = {
 	getTransaction() {
 		return `/transaction`
 	},
+	findTransaction(page: number, pageSize: number, status: string) {
+		return `/transaction?page=${page}&page_size=${pageSize}&status=${status}`
+	},
 	approveTransaction(id: string) {
 		return `/transaction/${id}/approve`
 	},
@@ -20,8 +23,8 @@ const url = {
 }
 
 const hooks = {
-	useTransaction() {
-        return useSWR(url.getTransaction, http.get)
+	useTransaction(page: number, pageSize: number, status: string) {
+        return useSWR(url.findTransaction(page, pageSize, status), http.get)
     },
 	useFindOneTransaction(id: string) {
 		return useSWR(url.findOneTransaction(id), http.get)

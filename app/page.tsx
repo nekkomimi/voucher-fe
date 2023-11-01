@@ -41,23 +41,25 @@ export default function Home() {
   };
 
   const handleSaveModal = async () => {
+    const value = await form.validateFields();
     setIsLoading(true)
 
-    const value = await form.validateFields();
     const data = {
       ...value,
       voucher_type: voucherType,
       fee: randomNumber.toString(),
       referral_code: ref ?? null
     };
-
+23
     try {
       const result = await transactionRepository.api.createTransaction(data);
       if (result.status === 201) {
         setIsModalOpen(false)
+        setIsLoading(false)
         form.resetFields()
         window.location = result.body?.data?.payment_url
       } else {
+        setIsLoading(false)
         notification.error({
           message: result.body.error
         })
