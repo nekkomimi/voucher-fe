@@ -24,7 +24,7 @@ const Page = () => {
   const [pageSize, setPageSize] = useState(10);
   const [status, setStatus] = useState('')
   const [isModalDetailOpen, setModalDetailOpen] = useState(false)
-  const [modalData, setModalData] = useState({})
+  const [modalData, setModalData] = useState(null)
   const [modalPropsData, setModalPropsData] = useState([]);
   const [tableData, setTableData] = useState([]);
   const [tableColumn, setTableColumn] = useState([]);
@@ -45,6 +45,18 @@ const Page = () => {
         {name: 'paid_at', label: 'Paid At'},
         {name: 'total', label: 'Total'},
       ];
+      form.setFieldsValue({
+        'first_name' : responseData.first_name,
+        'last_name' : responseData.last_name,
+        'email' : responseData.email,
+        'phone_number' : responseData.phone_number,
+        'payment_method' : responseData.payment_method,
+        'payment_channel' : responseData.payment_channel,
+        'expired_date' : responseData.expired_date,
+        'paid_at' : responseData.paid_at,
+        'total' : responseData.total
+      })
+
       const tableColumn = [
         {
           title: 'Code',
@@ -61,7 +73,7 @@ const Page = () => {
           render: (text:any) => text?.type
         }
       ];
-      setModalData(prevState => (responseData))
+      setModalData(responseData)
       setModalPropsData(prevState => (propsDataFields as never[]))
       setTableColumn(prevState => (tableColumn as never[]))
       setTableData(prevState => (responseData?.transaction_items))
@@ -72,6 +84,7 @@ const Page = () => {
   }
 
   const handleCloseModalDetail = () => {
+    form.resetFields()
     setModalDetailOpen(false)
   }
 
@@ -80,7 +93,7 @@ const Page = () => {
       title: 'No',
       dataIndex: 'no',
       key: 'no',
-      width: 100,
+      width: 70,
       align: 'center',
       render: (text: string, record: any, index: number) => (page - 1) * pageSize + index + 1
   },
@@ -167,7 +180,6 @@ const Page = () => {
         },
         total: dataTransation?.body?.data?.count,
       }} scroll={{ y: 700 }} onChange={(pagination, filters, sorter, extra) => {
-        console.log(filters)
         if (filters.status) {
           setStatus(filters.status.join(','))
         }

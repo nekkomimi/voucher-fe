@@ -15,17 +15,21 @@ const ModalDetail = (props: any) => {
         handleCancelModal
     } = props
 
+    console.log(formData)
+
     return (
         <Modal title={title} open={isOpen} centered bodyStyle={{
             height: 500,
             overflowX: 'scroll'
         }}
         footer={[
-            <Button type={'primary'} onClick={() => handleCancelModal()}>Close</Button>
+            <Button type={'primary'} onClick={() => {
+                handleCancelModal()
+            }}>Close</Button>
         ]}
         >
             <Card>
-                <Form form={form} layout={'vertical'} initialValues={formData}>
+                <Form form={form} layout={'vertical'}>
                     {formFields.map((field: any) => (
                         <Form.Item name={field.name} label={field.label}>
                             <Input/>

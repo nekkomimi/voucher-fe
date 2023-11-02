@@ -5,6 +5,9 @@ const url = {
 	getTransaction() {
 		return `/transaction`
 	},
+	findTransactionWithRange() {
+		return `/transaction/with-range`
+	},
 	findTransaction(page: number, pageSize: number, status: string) {
 		return `/transaction?page=${page}&page_size=${pageSize}&status=${status}`
 	},
@@ -28,6 +31,9 @@ const hooks = {
     },
 	useFindOneTransaction(id: string) {
 		return useSWR(url.findOneTransaction(id), http.get)
+	},
+	useFindTransactionWithRange() {
+		return useSWR(url.findTransactionWithRange(), http.get)
 	}
 }
 
