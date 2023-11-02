@@ -17,13 +17,14 @@ import CiimaxIogo from "../public/images/Climax_Logo_Full.jpg"
 import { Carousel } from 'react-bootstrap';
 import ThumbnailPoster from '#/public/images/Thumbnail_Poster.jpg'
 import ThumbnailPoster2 from '#/public/images/Thumbnail_Poster_2.jpg'
+import ThumbnailPoster3 from '#/public/images/Thumbnail_Poster_3.jpg'
 import Banner1 from '#/public/images/Banner_Promo_Prelaunch.jpg'
 import Banner2 from '#/public/images/Banner_Promo_Prelaunch_2.jpg'
 import GoldButton from '#/public/images/Voucher_Template_Gold_Marketplace.jpg';
 import DiamondButton from '#/public/images/Voucher_Template_Diamond_Marketplace.jpg';
 import Loading from "./component/Loading";
 
-const dataPoster = [ThumbnailPoster, ThumbnailPoster2]
+const dataPoster = [ThumbnailPoster, ThumbnailPoster2, ThumbnailPoster3]
 const dataBanner = [Banner1, Banner2];
 export default function Home() {
   const [form] = Form.useForm();
