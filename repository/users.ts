@@ -7,6 +7,12 @@ const url = {
     },
     findOneUsers(id: string) {
         return `/users/${id}`
+    },
+    createUsers() {
+        return '/users'
+    },
+    deleteUsers(id: string) {
+        return `/users/${id}`
     }
 }
 
@@ -19,6 +25,15 @@ const hooks = {
 const api = {
     findOneUsers(id: string){
         return http.get(url.findOneUsers(id))
+    },
+    createUsers(data: {
+        email: string,
+        password: string,
+    }) {
+        return http.post(url.createUsers()).send(data)
+    },
+    deleteUsers(id: string) {
+        return http.del(url.deleteUsers(id))
     }
 }
 

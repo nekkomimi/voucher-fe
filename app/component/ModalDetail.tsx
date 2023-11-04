@@ -27,6 +27,7 @@ const ModalDetail = (props: any) => {
                 handleCancelModal()
             }}>Close</Button>
         ]}
+               closable={false}
         >
             <Card>
                 <Form form={form} layout={'vertical'}>

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Button, Card, Modal, Form, Table, Space, Image, message, DatePicker, Select } from "antd";
+import {Button, Card, Modal, Form, Table, Space, Image, message, DatePicker, Select, notification} from "antd";
 import { store } from "#/store";
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import type { UploadProps } from 'antd';
@@ -39,6 +39,7 @@ const Page = () => {
         {name: 'last_name', label: 'Last Name'},
         {name: 'email', label: 'Email'},
         {name: 'phone_number', label: 'Phone Number'},
+        {name: 'unique_code', label: 'Unique Code'},
         {name: 'payment_method', label: 'Payment Method'},
         {name: 'payment_channel', label: 'Payment Channel'},
         {name: 'expired_date', label: 'Expired Date'},
@@ -50,11 +51,12 @@ const Page = () => {
         'last_name' : responseData.last_name,
         'email' : responseData.email,
         'phone_number' : responseData.phone_number,
+        'unique_code' : convertRupiah(+responseData.fee),
         'payment_method' : responseData.payment_method,
         'payment_channel' : responseData.payment_channel,
         'expired_date' : responseData.expired_date,
         'paid_at' : responseData.paid_at,
-        'total' : responseData.total
+        'total' : convertRupiah(+responseData.total)
       })
 
       const tableColumn = [
@@ -70,7 +72,7 @@ const Page = () => {
           title: 'Type',
           dataIndex: 'voucher',
           key: 'code',
-          render: (text:any) => text?.type
+          render: (text:any) => text?.type === 1 ? 'GOLD' : 'DIAMOND'
         }
       ];
       setModalData(responseData)
@@ -80,6 +82,9 @@ const Page = () => {
       setModalDetailOpen(true)
     } catch (e:any) {
       console.log(e.response)
+      notification.error({
+        message: e?.response?.error
+      })
     }
   }
 
