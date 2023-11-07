@@ -72,7 +72,7 @@ const Page = () => {
           title: 'Type',
           dataIndex: 'voucher',
           key: 'code',
-          render: (text:any) => text?.type === 1 ? 'GOLD' : 'DIAMOND'
+          render: (text:any) => text?.type === "1" ? 'GOLD' : 'DIAMOND'
         }
       ];
       setModalData(responseData)

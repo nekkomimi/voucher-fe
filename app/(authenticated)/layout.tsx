@@ -38,11 +38,6 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({children}) => 
       icon: <CreditCardOutlined />,
       label: `Transaction`,
     },
-    // {
-    //   key: `/voucher`,
-    //   icon: <FileOutlined />,
-    //   label: `Voucher`,
-    // },
     {
       key: `/users`,
       icon: <UserOutlined />,
