@@ -20,12 +20,14 @@ import ThumbnailPoster2 from '#/public/images/Thumbnail_Poster_2.jpg'
 import ThumbnailPoster3 from '#/public/images/Thumbnail_Poster_3.jpg'
 import Banner1 from '#/public/images/Banner_Promo_Prelaunch.jpg'
 import Banner2 from '#/public/images/Banner_Promo_Prelaunch_2.jpg'
+import Banner3 from '#/public/images/Banner_Promo_Prelaunch_3.jpg'
+import Banner4 from '#/public/images/Banner_Promo_Prelaunch_4.jpg'
 import GoldButton from '#/public/images/Voucher_Template_Gold_Marketplace.jpg';
 import DiamondButton from '#/public/images/Voucher_Template_Diamond_Marketplace.jpg';
 import Loading from "./component/Loading";
 
 const dataPoster = [ThumbnailPoster, ThumbnailPoster2, ThumbnailPoster3]
-const dataBanner = [Banner1, Banner2];
+const dataBanner = [Banner1, Banner2, Banner3, Banner4];
 export default function Home() {
   const [form] = Form.useForm();
   const params = useSearchParams()
