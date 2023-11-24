@@ -23,12 +23,13 @@ const Page = () => {
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [status, setStatus] = useState('')
+  const [sortBy, setSortBy] = useState('desc')
   const [isModalDetailOpen, setModalDetailOpen] = useState(false)
   const [modalData, setModalData] = useState(null)
   const [modalPropsData, setModalPropsData] = useState([]);
   const [tableData, setTableData] = useState([]);
   const [tableColumn, setTableColumn] = useState([]);
-  const { data: dataTransation, isLoading, mutate } = transactionRepository.hooks.useTransaction(page, pageSize, status);
+  const { data: dataTransation, isLoading, mutate } = transactionRepository.hooks.useTransaction(page, pageSize, status, sortBy);
 
   const handleOpenModalDetail = async (id: string) => {
     try {
@@ -115,7 +116,7 @@ const Page = () => {
           format(parseISO(text), " d MMMM yyyy", {
             locale: enUS,
           }),
-      sorter: (a: any, b: any) => (isBefore(new Date(a.transaction_date), new Date(b.transaction_date)) ? -1 : 1),
+      // sorter: (a: any, b: any) => (isBefore(new Date(a.transaction_date), new Date(b.transaction_date)) ? -1 : 1),
     },
     {
       title: 'Email',
@@ -184,9 +185,12 @@ const Page = () => {
           setPageSize(pageSize)
         },
         total: dataTransation?.body?.data?.count,
-      }} scroll={{ y: 700 }} onChange={(pagination, filters, sorter, extra) => {
+      }} scroll={{ y: 700 }} onChange={(pagination, filters, sorter: any, extra) => {
         if (filters.status) {
           setStatus(filters.status.join(','))
+        }
+        if (sorter){
+          setSortBy(sorter?.order == 'ascend' ? 'ascend' : 'descend')
         }
       }}/>
       <ModalDetailTransaction

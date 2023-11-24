@@ -8,8 +8,8 @@ const url = {
 	findTransactionWithRange() {
 		return `/transaction/with-range`
 	},
-	findTransaction(page: number, pageSize: number, status: string) {
-		return `/transaction?page=${page}&page_size=${pageSize}&status=${status}`
+	findTransaction(page: number, pageSize: number, status: string, sort: string) {
+		return `/transaction?page=${page}&page_size=${pageSize}&status=${status}&sort_by=${sort}`
 	},
 	approveTransaction(id: string) {
 		return `/transaction/${id}/approve`
@@ -26,8 +26,8 @@ const url = {
 }
 
 const hooks = {
-	useTransaction(page: number, pageSize: number, status: string) {
-        return useSWR(url.findTransaction(page, pageSize, status), http.get)
+	useTransaction(page: number, pageSize: number, status: string, sort: string) {
+        return useSWR(url.findTransaction(page, pageSize, status, sort), http.get)
     },
 	useFindOneTransaction(id: string) {
 		return useSWR(url.findOneTransaction(id), http.get)
